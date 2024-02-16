@@ -28,34 +28,59 @@ class _HomeScreenState extends State<HomeScreen> {
           const Gap(15)
         ],
       ),
-      body: Padding(
+      body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-        child: Column(
-          children: [
-            ListTile(
-              title: Text(
-                "Hi, Joseph",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(color: grey1),
-              ),
-              subtitle: Text(
-                "Be productive today!",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(color: grey1, fontWeight: FontWeight.bold),
+        children: [
+          ListTile(
+            title: Text(
+              "Hi, Joseph",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: grey1),
+            ),
+            subtitle: Text(
+              "Be productive today!",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(color: grey1, fontWeight: FontWeight.bold),
+            ),
+          ),
+          const Gap(5),
+          const SearchWidget(),
+          const Gap(5),
+          const TaskProgress(),
+          const Gap(20),
+          const StaggeredGridViewF()
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: SizedBox(
+        width: MediaQuery.of(context).size.width / 2,
+        child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              elevation: 10,
+              backgroundColor: const Color(0xff3f37c9),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
               ),
             ),
-            const Gap(5),
-            const SearchWidget(),
-            const Gap(5),
-            const TaskProgress(),
-            const Gap(10),
-            const StaggeredGridViewF()
-          ],
-        ),
+            onPressed: () {},
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Add new task",
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+                const Gap(10),
+                const Icon(Icons.add, color: Colors.white, size: 20)
+              ],
+            )),
       ),
     );
   }

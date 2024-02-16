@@ -18,7 +18,8 @@ class MyApp extends StatelessWidget {
         fontFamily: "open-sans",
         scaffoldBackgroundColor: bgColor,
         colorScheme: ColorScheme.fromSeed(seedColor: bgColor),
-        appBarTheme: AppBarTheme(elevation: 0.5, color: bgColor),
+        appBarTheme: AppBarTheme(
+            elevation: 0.5, color: bgColor, surfaceTintColor: bgColor),
         useMaterial3: true,
       ),
     );
