@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:task_manager/config/globals.dart';
 import 'package:task_manager/widgets/search_widget.dart';
 import 'package:task_manager/widgets/staggered_grid.dart';
@@ -19,7 +20,10 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                // TODO: Implement notification and show notifications screen
+                context.pushNamed("notifications");
+              },
               icon: Icon(
                 Icons.notifications_rounded,
                 color: grey1,
@@ -35,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
               "Hi, Joseph",
               style: Theme.of(context)
                   .textTheme
-                  .bodyMedium!
+                  .titleMedium!
                   .copyWith(color: grey1),
             ),
             subtitle: Text(
@@ -66,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            onPressed: () {},
+            onPressed: () => context.pushNamed("create_task"),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
