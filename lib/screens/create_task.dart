@@ -11,9 +11,66 @@ class CreateTaskScreen extends StatefulWidget {
 }
 
 class _CreateTaskScreenState extends State<CreateTaskScreen> {
-  late TextEditingController title, subtitle, description;
+  late TextEditingController title, subtitle, description, task;
   String? selectedDate;
   String? selectedTime;
+
+// create task
+  void createTask() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Create Task"),
+          backgroundColor: bgColor1,
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: task,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                      hintText: "Type something",
+                      labelText: "Type something here...",
+                      labelStyle: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(color: Colors.white),
+                      hintStyle: const TextStyle(color: Colors.white),
+                      border: InputBorder.none,
+                      focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white))),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // Add logic to save the task
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                "Save",
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                "Cancel",
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   // Function to pick date
   Future<void> pickDate() async {
@@ -51,6 +108,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
     title = TextEditingController();
     subtitle = TextEditingController();
     description = TextEditingController();
+    task = TextEditingController();
     super.initState();
   }
 
@@ -59,6 +117,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
     title.dispose();
     subtitle.dispose();
     description.dispose();
+    task.dispose();
     super.dispose();
   }
 
@@ -75,6 +134,13 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
               .titleLarge!
               .copyWith(color: grey1, fontWeight: FontWeight.bold),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => createTask(),
+        shape: const CircleBorder(),
+        tooltip: 'Save',
+        backgroundColor: const Color(0xff3f37c9),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
       body: ListView(
         children: [
@@ -187,7 +253,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                   hintStyle: TextStyle(color: grey1),
                   border: InputBorder.none),
             ),
-          )
+          ),
         ],
       ),
     );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:task_manager/widgets/notification_widget.dart';
 
 class NotificationsScreen extends StatelessWidget {
