@@ -254,6 +254,25 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                   border: InputBorder.none),
             ),
           ),
+          // TODO: Add listview.builder to display tasks
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  backgroundColor: const Color(0xff3f37c9),
+                ),
+                onPressed: () {
+                  // TODO: logic to save entire task parent
+                },
+                child: const Text(
+                  "Save Task",
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                )),
+          )
         ],
       ),
     );
