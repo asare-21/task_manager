@@ -4,8 +4,7 @@ import 'package:task_manager/models/task_model.dart';
 class TaskParentModel {
   String title, subtitle, description;
   List<TaskModel> tasks;
-  DateTime date;
-  TimeOfDay time;
+  String date, time;
 
   // Constructor for creating a new task parent model
   TaskParentModel(

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:task_manager/config/globals.dart';
+import 'package:task_manager/models/task_model.dart';
+import 'package:task_manager/models/task_parent_class.dart';
+import 'package:task_manager/provider/task_provider.dart';
 
 class CreateTaskScreen extends StatefulWidget {
   const CreateTaskScreen({super.key});
@@ -11,9 +16,18 @@ class CreateTaskScreen extends StatefulWidget {
 }
 
 class _CreateTaskScreenState extends State<CreateTaskScreen> {
+  // form key
+  final _formKey = GlobalKey<FormState>();
   late TextEditingController title, subtitle, description, task;
   String? selectedDate;
   String? selectedTime;
+  final List<TaskModel> _tasks = [];
+
+// delete task
+  void deleteTask(TaskModel task) {
+    _tasks.remove(task);
+    setState(() {});
+  }
 
 // create task
   void createTask() {
@@ -47,8 +61,11 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                // Add logic to save the task
+                // TODO: Add logic to save the task
+                _tasks.add(TaskModel(title: task.text));
+                task.clear();
                 Navigator.of(context).pop();
+                setState(() {});
               },
               child: const Text(
                 "Save",
@@ -103,6 +120,36 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
     }
   }
 
+  void saveTaskParent() {
+    // throw error if _task is empty
+    if (_tasks.isEmpty) {
+      Fluttertoast.showToast(
+          msg: "Create at least one task",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return;
+    }
+    if (_formKey.currentState!.validate() &&
+        selectedDate!.isNotEmpty &&
+        selectedTime!.isNotEmpty) {
+      TaskProvider taskProvider =
+          Provider.of<TaskProvider>(context, listen: false);
+      TaskParentModel taskParent = TaskParentModel(
+          title: title.text,
+          subtitle: subtitle.text,
+          description: description.text,
+          date: selectedDate ?? "No date",
+          time: selectedTime ?? "No time",
+          tasks: _tasks);
+      taskProvider.createTaskParent(taskParent);
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   void initState() {
     title = TextEditingController();
@@ -142,138 +189,305 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
         backgroundColor: const Color(0xff3f37c9),
         child: const Icon(Icons.add, color: Colors.white),
       ),
-      body: ListView(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: const BoxDecoration(
-              color: Color(0xff3f37c9),
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20)),
-            ),
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: title,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                      hintText: "Task title",
-                      labelText: "Task title",
-                      hintStyle: const TextStyle(color: Colors.white),
-                      border: InputBorder.none,
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(color: Colors.white),
-                      focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white))),
-                ),
-                TextFormField(
-                  controller: subtitle,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                      hintText: "Task subtitle",
-                      labelText: "Task subtitle",
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(color: Colors.white),
-                      hintStyle: const TextStyle(color: Colors.white),
-                      border: InputBorder.none,
-                      focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white))),
-                ),
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Text(
-                        "When is this due?",
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                color: Color(0xff3f37c9),
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20)),
+              ),
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: title,
+                    style: const TextStyle(color: Colors.white),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Title cannot be empty";
+                      }
+                      TaskModel task = TaskModel(title: title.text);
+                      if (_tasks.contains(task)) {
+                        Fluttertoast.showToast(
+                            msg: "Task already exists",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                        return "Task already exists";
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                        hintText: "Task title",
+                        labelText: "Task title",
+                        hintStyle: const TextStyle(color: Colors.white),
+                        border: InputBorder.none,
+                        labelStyle: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(color: Colors.white),
+                        focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white))),
+                  ),
+                  TextFormField(
+                    controller: subtitle,
+                    style: const TextStyle(color: Colors.white),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Subtitle cannot be empty";
+                      }
+
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                        hintText: "Task subtitle",
+                        labelText: "Task subtitle",
+                        labelStyle: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(color: Colors.white),
+                        hintStyle: const TextStyle(color: Colors.white),
+                        border: InputBorder.none,
+                        focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white))),
+                  ),
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Text(
+                          "When is this due?",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                        ),
+                      )),
+                  Row(
+                    children: [
+                      IconButton(
+                          onPressed: () => pickTime(),
+                          icon: const Icon(Icons.alarm, color: Colors.white)),
+                      Text(
+                        selectedTime ?? "No time",
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
-                    )),
-                Row(
-                  children: [
-                    IconButton(
-                        onPressed: () => pickTime(),
-                        icon: const Icon(Icons.alarm, color: Colors.white)),
-                    Text(
-                      selectedTime ?? "No time",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    const Spacer(),
-                    IconButton(
-                      onPressed: () async => pickDate(),
-                      icon: const Icon(Icons.calendar_month_outlined,
-                          color: Colors.white),
-                    ),
-                    Text(
-                      selectedDate ?? "No date",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    const Spacer(),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const Gap(20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              "Description",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge!
-                  .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            height: 150,
-            margin: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: bgColor1,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: TextFormField(
-              controller: description,
-              maxLength: 300,
-              cursorColor: grey1,
-              style: TextStyle(color: grey1),
-              maxLines: 5,
-              decoration: InputDecoration(
-                  counterStyle:
-                      TextStyle(color: grey1, fontWeight: FontWeight.bold),
-                  hintText: "Task description",
-                  hintStyle: TextStyle(color: grey1),
-                  border: InputBorder.none),
-            ),
-          ),
-          // TODO: Add listview.builder to display tasks
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () async => pickDate(),
+                        icon: const Icon(Icons.calendar_month_outlined,
+                            color: Colors.white),
+                      ),
+                      Text(
+                        selectedDate ?? "No date",
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      const Spacer(),
+                    ],
                   ),
-                  backgroundColor: const Color(0xff3f37c9),
-                ),
-                onPressed: () {
-                  // TODO: logic to save entire task parent
-                },
-                child: const Text(
-                  "Save Task",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                )),
-          )
-        ],
+                ],
+              ),
+            ),
+            const Gap(20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                "Description",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              height: 150,
+              margin: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: bgColor1,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TextFormField(
+                controller: description,
+                maxLength: 300,
+                cursorColor: grey1,
+                style: TextStyle(color: grey1),
+                maxLines: 5,
+                decoration: InputDecoration(
+                    counterStyle:
+                        TextStyle(color: grey1, fontWeight: FontWeight.bold),
+                    hintText: "Task description",
+                    hintStyle: TextStyle(color: grey1),
+                    border: InputBorder.none),
+              ),
+            ),
+            const Gap(20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                "Progress",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const Gap(10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                children: [
+                  Flexible(
+                      child: LinearProgressIndicator(
+                    backgroundColor: bgColor1,
+                  )),
+                  const Gap(20),
+                  Text("70%",
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Colors.white, fontWeight: FontWeight.bold))
+                ],
+              ),
+            ),
+            const Gap(20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                "Tasks",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const Gap(10),
+            // TODO: Add listview.builder to display tasks
+            ..._tasks
+                .map(
+                  (e) => Dismissible(
+                    key: UniqueKey(),
+                    onDismissed: (direction) {
+                      deleteTask(e);
+                    },
+                    confirmDismiss: (direction) async {
+                      return await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: bgColor,
+                            title: Text("Delete Task",
+                                style: TextStyle(
+                                    color: grey1, fontWeight: FontWeight.bold)),
+                            content: const Text(
+                                "Are you sure you want to delete this task?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(true);
+                                },
+                                child: Text(
+                                  "Yes",
+                                  style: TextStyle(
+                                      color: grey1,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(false);
+                                },
+                                child: Text("No",
+                                    style: TextStyle(
+                                      color: grey1,
+                                    )),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: bgColor1),
+                      child: Column(children: [
+                        Row(
+                          children: [
+                            Radio(
+                              value: e.isDone,
+                              groupValue: e.isDone,
+                              onChanged: (value) {
+                                int index = _tasks.indexWhere((element) {
+                                  return element.title == e.title;
+                                });
+                                _tasks[index].toggleDone();
+                                setState(() {});
+                              },
+                              toggleable: true,
+                            ),
+                            const Gap(10),
+                            Flexible(
+                              child: Text(
+                                e.title,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                        color: grey1,
+                                        fontWeight: FontWeight.bold,
+                                        decorationColor: grey1,
+                                        decorationStyle:
+                                            TextDecorationStyle.solid,
+                                        decorationThickness: 4,
+                                        decoration: e.isDone
+                                            ? TextDecoration.lineThrough
+                                            : null),
+                              ),
+                            ),
+                          ],
+                        )
+                      ]),
+                    ),
+                  ),
+                )
+                .toList(),
+            const Gap(10),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    backgroundColor: const Color(0xff3f37c9),
+                  ),
+                  onPressed: () {
+                    // TODO: logic to save entire task parent
+                    saveTaskParent();
+                  },
+                  child: const Text(
+                    "Save Task",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  )),
+            )
+          ],
+        ),
       ),
     );
   }
