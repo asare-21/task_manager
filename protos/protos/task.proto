@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+message TaskModel {
+  string title = 1;
+  bool is_done = 2;
+}
+
+message TaskParentModel {
+  string title = 1;
+  string subtitle = 2;
+  string description = 3;
+  repeated TaskModel tasks = 4;
+  string date = 5;
+  string time = 6;
+}
