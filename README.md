@@ -3,8 +3,8 @@
 Task manager written in flutter
 
 ## UI 
-https://dribbble.com/shots/19309032-Task-Management-App
-![original-a5f9fee3ce5916d074650056ee864bda](https://github.com/asare-21/task_manager/assets/52238457/92b8a04f-2341-4864-abb3-7dd4545dbd64)
+[UI Inspritation can be found here](https://github.com/asare-21/task_manager/assets/52238457/92b8a04f-2341-4864-abb3-7dd4545dbd64)
+
 
 ## Some shots of the application
 <img src="https://github.com/asare-21/task_manager/assets/52238457/92ee79ed-33c6-417e-9e4d-f89b335cf79e" alt="" height="500">
