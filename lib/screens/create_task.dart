@@ -61,7 +61,6 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                // TODO: Add logic to save the task
                 _tasks.add(TaskModel(title: task.text));
                 task.clear();
                 Navigator.of(context).pop();
@@ -494,7 +493,6 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                       backgroundColor: const Color(0xff3f37c9),
                     ),
                     onPressed: () {
-                      // TODO: logic to save entire task parent
                       saveTaskParent();
                     },
                     child: const Text(
