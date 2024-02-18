@@ -81,4 +81,17 @@ class TaskProvider with ChangeNotifier {
     }
     return done;
   }
+
+  getSingleTaskParentProgress(String title) {
+    if (_tasksParents.isEmpty) return 0.0;
+    int index = _tasksParents.indexWhere((element) => element.title == title);
+    if (index == -1) return 0.0;
+    double total = 0;
+    double done = 0;
+    for (var task in _tasksParents[index].tasks) {
+      total++;
+      if (task.isDone) done++;
+    }
+    return done / total;
+  }
 }
