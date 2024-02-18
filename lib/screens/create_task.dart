@@ -224,6 +224,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                       }
                       return null;
                     },
+                    maxLength: 100,
                     decoration: InputDecoration(
                         hintText: "Task title",
                         labelText: "Task title",
@@ -333,45 +334,59 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
               ),
             ),
             const Gap(20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                "Progress",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+            if (_tasks.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  "Progress",
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
             const Gap(10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                children: [
-                  Flexible(
-                      child: LinearProgressIndicator(
-                    backgroundColor: bgColor1,
-                  )),
-                  const Gap(20),
-                  Text("70%",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold))
-                ],
+            if (_tasks.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(
+                  children: [
+                    Flexible(
+                        child: TweenAnimationBuilder(
+                            duration: const Duration(milliseconds: 600),
+                            tween: Tween<double>(
+                                begin: 0,
+                                end: (_tasks
+                                            .where((task) => task.isDone)
+                                            .length /
+                                        _tasks.length)
+                                    .toDouble()),
+                            curve: Curves.linear,
+                            builder: (context, value, _) {
+                              return LinearProgressIndicator(
+                                backgroundColor: bgColor1,
+                                value: value,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.greenAccent[400]!),
+                              );
+                            })),
+                    const Gap(20),
+                    Text(
+                        "${(_tasks.where((task) => task.isDone).length / _tasks.length).toDouble() * 100} %",
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.bold))
+                  ],
+                ),
               ),
-            ),
             const Gap(20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                "Tasks",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+            if (_tasks.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  "Tasks",
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
             const Gap(10),
-            // TODO: Add listview.builder to display tasks
             ..._tasks
                 .map(
                   (e) => Dismissible(
@@ -467,25 +482,26 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                 )
                 .toList(),
             const Gap(10),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+            if (_tasks.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      backgroundColor: const Color(0xff3f37c9),
                     ),
-                    backgroundColor: const Color(0xff3f37c9),
-                  ),
-                  onPressed: () {
-                    // TODO: logic to save entire task parent
-                    saveTaskParent();
-                  },
-                  child: const Text(
-                    "Save Task",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  )),
-            )
+                    onPressed: () {
+                      // TODO: logic to save entire task parent
+                      saveTaskParent();
+                    },
+                    child: const Text(
+                      "Save Task",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    )),
+              )
           ],
         ),
       ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:task_manager/config/globals.dart';
+import 'package:task_manager/provider/task_provider.dart';
 
 class TaskProgress extends StatelessWidget {
   const TaskProgress({super.key});
@@ -30,12 +32,14 @@ class TaskProgress extends StatelessWidget {
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text(
-                        "30/40 tasks done",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: Colors.white),
+                      subtitle: Consumer<TaskProvider>(
+                        builder: (context, value, child) => Text(
+                          "${value.getTotalCompletedTasks()}/${value.totalNumberOfTasks()} tasks done",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
@@ -60,27 +64,39 @@ class TaskProgress extends StatelessWidget {
             SizedBox(
                 height: 100,
                 width: 100,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SizedBox(
-                      height: 70,
-                      width: 70,
-                      child: CircularProgressIndicator(
-                        value: 0.5,
-                        strokeWidth: 9,
-                        color: const Color(0xff3f37c9),
-                        backgroundColor: bgColor,
-                        strokeCap: StrokeCap.round,
+                child: Consumer<TaskProvider>(
+                  builder: (context, taskProvider, child) => Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      SizedBox(
+                        height: 70,
+                        width: 70,
+                        child: TweenAnimationBuilder(
+                            duration: const Duration(microseconds: 600),
+                            tween: Tween<double>(
+                                begin: 0,
+                                end: taskProvider.getEntireProgress()),
+                            curve: Curves.linear,
+                            builder: (context, value, _) {
+                              return CircularProgressIndicator(
+                                value: value,
+                                strokeWidth: 9,
+                                color: const Color(0xff3f37c9),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.greenAccent[400]!),
+                                backgroundColor: bgColor,
+                                strokeCap: StrokeCap.round,
+                              );
+                            }),
                       ),
-                    ),
-                    Positioned(
-                        child: Text(
-                      "50%",
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ))
-                  ],
+                      Positioned(
+                          child: Text(
+                        "${taskProvider.getEntireProgress().floor() * 100}%",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ))
+                    ],
+                  ),
                 ))
           ],
         ),
