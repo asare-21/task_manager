@@ -17,14 +17,13 @@ class TaskProgress extends StatelessWidget {
       ),
       child: SizedBox(
         width: double.infinity,
-        child: Row(
+        child: Column(
           children: [
-            Expanded(
-              flex: 4,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
+            Row(
+              children: [
+                Expanded(
+                  flex: 4,
+                  child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: ListTile(
                       title: Text(
@@ -43,61 +42,70 @@ class TaskProgress extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    height: 30,
+                ),
+                SizedBox(
+                    height: 100,
                     width: 100,
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.only(left: 10),
-                    decoration: BoxDecoration(
-                      color: const Color(0xff3f37c9),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Text(
-                      "March 22",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-                height: 100,
-                width: 100,
-                child: Consumer<TaskProvider>(
-                  builder: (context, taskProvider, child) => Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      SizedBox(
-                        height: 70,
-                        width: 70,
-                        child: TweenAnimationBuilder(
-                            duration: const Duration(microseconds: 600),
-                            tween: Tween<double>(
-                                begin: 0,
-                                end: taskProvider.getEntireProgress()),
-                            curve: Curves.linear,
-                            builder: (context, value, _) {
-                              return CircularProgressIndicator(
-                                value: value,
-                                strokeWidth: 9,
-                                color: const Color(0xff3f37c9),
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                    Colors.greenAccent[400]!),
-                                backgroundColor: bgColor,
-                                strokeCap: StrokeCap.round,
-                              );
-                            }),
+                    child: Consumer<TaskProvider>(
+                      builder: (context, taskProvider, child) => Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          SizedBox(
+                            height: 70,
+                            width: 70,
+                            child: TweenAnimationBuilder(
+                                duration: const Duration(microseconds: 600),
+                                tween: Tween<double>(
+                                    begin: 0,
+                                    end: taskProvider.getEntireProgress()),
+                                curve: Curves.linear,
+                                builder: (context, value, _) {
+                                  return CircularProgressIndicator(
+                                    value: value,
+                                    strokeWidth: 9,
+                                    color: const Color(0xff3f37c9),
+                                    valueColor:
+                                        AlwaysStoppedAnimation<Color>(green),
+                                    backgroundColor: bgColor,
+                                    strokeCap: StrokeCap.round,
+                                  );
+                                }),
+                          ),
+                          Positioned(
+                              child: Text(
+                            "${(double.parse(taskProvider.getEntireProgress().toStringAsFixed(2)) * 100).toStringAsFixed(1)}%",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                          ))
+                        ],
                       ),
-                      Positioned(
-                          child: Text(
-                        "${taskProvider.getEntireProgress().floor() * 100}%",
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ))
-                    ],
-                  ),
-                ))
+                    ))
+              ],
+            ),
+            Container(
+              height: 30,
+              // width: 100,
+              alignment: Alignment.centerLeft,
+              margin: const EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                color: const Color(0xff3f37c9),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Consumer<TaskProvider>(
+                builder: (context, taskProvider, child) => Text(
+                  taskProvider.taskParents.map((e) => e.date).join(" | "),
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ),
+            )
           ],
         ),
       ),

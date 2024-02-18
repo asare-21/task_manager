@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manager/config/globals.dart';
 import 'package:task_manager/provider/task_provider.dart';
@@ -64,7 +65,9 @@ class StaggeredGridViewF extends StatelessWidget {
                               style:
                                   IconButton.styleFrom(backgroundColor: grey),
                               onPressed: () {
-                                // TODO: Implement onPressed: Used to edit a task (Navigate to edit screen)
+                                //
+                                context.pushNamed("edit_task",
+                                    extra: taskProvider.taskParents[index]);
                               },
                               icon: const Icon(Icons.edit)),
                         ),
@@ -112,10 +115,9 @@ class StaggeredGridViewF extends StatelessWidget {
                               child: LinearProgressIndicator(
                                 borderRadius: BorderRadius.circular(30),
                                 value: taskProvider.getSingleTaskParentProgress(
-                                        taskProvider.taskParents[index].title) /
-                                    100,
+                                    taskProvider.taskParents[index].title),
                                 backgroundColor: bgColor,
-                                color: const Color(0xff3f37c9),
+                                color: green,
                               ),
                             ),
                           ],

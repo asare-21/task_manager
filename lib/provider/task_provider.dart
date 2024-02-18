@@ -94,4 +94,13 @@ class TaskProvider with ChangeNotifier {
     }
     return done / total;
   }
+
+  // update task parent
+  void updateTaskParent(TaskParentModel taskParent) {
+    int index = _tasksParents
+        .indexWhere((element) => element.title == taskParent.title);
+    if (index == -1) return;
+    _tasksParents[index] = taskParent;
+    notifyListeners();
+  }
 }

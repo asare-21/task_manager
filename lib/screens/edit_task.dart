@@ -8,14 +8,14 @@ import 'package:task_manager/models/task_model.dart';
 import 'package:task_manager/models/task_parent_class.dart';
 import 'package:task_manager/provider/task_provider.dart';
 
-class CreateTaskScreen extends StatefulWidget {
-  const CreateTaskScreen({super.key});
-
+class EditTaskScreen extends StatefulWidget {
+  const EditTaskScreen({super.key, required this.taskParent});
+  final TaskParentModel taskParent;
   @override
-  State<CreateTaskScreen> createState() => _CreateTaskScreenState();
+  State<EditTaskScreen> createState() => _EditTaskScreenState();
 }
 
-class _CreateTaskScreenState extends State<CreateTaskScreen> {
+class _EditTaskScreenState extends State<EditTaskScreen> {
   // form key
   final _formKey = GlobalKey<FormState>();
   late TextEditingController title, subtitle, description, task;
@@ -133,29 +133,28 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
           fontSize: 16.0);
       return;
     }
-    if (_formKey.currentState!.validate() &&
-        selectedDate!.isNotEmpty &&
-        selectedTime!.isNotEmpty) {
+    if (_formKey.currentState!.validate()) {
       TaskProvider taskProvider =
           Provider.of<TaskProvider>(context, listen: false);
       TaskParentModel taskParent = TaskParentModel(
           title: title.text,
           subtitle: subtitle.text,
           description: description.text,
-          date: selectedDate ?? "No date",
-          time: selectedTime ?? "No time",
+          date: widget.taskParent.date,
+          time: widget.taskParent.time,
           tasks: _tasks);
-      taskProvider.createTaskParent(taskParent);
+      taskProvider.updateTaskParent(taskParent);
       Navigator.of(context).pop();
     }
   }
 
   @override
   void initState() {
-    title = TextEditingController();
-    subtitle = TextEditingController();
-    description = TextEditingController();
+    title = TextEditingController(text: widget.taskParent.title);
+    subtitle = TextEditingController(text: widget.taskParent.subtitle);
+    description = TextEditingController(text: widget.taskParent.description);
     task = TextEditingController();
+    _tasks.addAll(widget.taskParent.tasks);
     super.initState();
   }
 
@@ -175,7 +174,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
       appBar: AppBar(
         backgroundColor: const Color(0xff3f37c9),
         title: Text(
-          "Create Task",
+          "Edit Task",
           style: Theme.of(context)
               .textTheme
               .titleLarge!
@@ -224,13 +223,12 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                       }
                       return null;
                     },
-                    maxLength: 100,
+                    enabled: false,
                     decoration: InputDecoration(
-                        hintText: "Task title",
-                        labelText: "Task title",
+                        hintText: widget.taskParent.title,
+                        labelText: widget.taskParent.title,
                         hintStyle: const TextStyle(color: Colors.white),
                         border: InputBorder.none,
-                        counterStyle: const TextStyle(color: Colors.white),
                         labelStyle: Theme.of(context)
                             .textTheme
                             .bodyLarge!
@@ -240,6 +238,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                   ),
                   TextFormField(
                     controller: subtitle,
+                    enabled: false,
                     style: const TextStyle(color: Colors.white),
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -249,8 +248,8 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                       return null;
                     },
                     decoration: InputDecoration(
-                        hintText: "Task subtitle",
-                        labelText: "Task subtitle",
+                        hintText: widget.taskParent.subtitle,
+                        labelText: widget.taskParent.subtitle,
                         labelStyle: Theme.of(context)
                             .textTheme
                             .bodyLarge!
@@ -280,7 +279,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                           onPressed: () => pickTime(),
                           icon: const Icon(Icons.alarm, color: Colors.white)),
                       Text(
-                        selectedTime ?? "No time",
+                        widget.taskParent.time,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
@@ -291,7 +290,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                             color: Colors.white),
                       ),
                       Text(
-                        selectedDate ?? "No date",
+                        widget.taskParent.date,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
@@ -371,7 +370,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                             })),
                     const Gap(20),
                     Text(
-                        "${(_tasks.where((task) => task.isDone).length / _tasks.length).toDouble() * 100} %",
+                        "${((_tasks.where((task) => task.isDone).length / _tasks.length) * 100).toStringAsFixed(2)} %",
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: Colors.white, fontWeight: FontWeight.bold))
                   ],
