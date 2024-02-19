@@ -21,10 +21,14 @@ export 'task.pb.dart';
 
 @$pb.GrpcServiceName('TaskService')
 class TaskServiceClient extends $grpc.Client {
-  static final _$getTaskList = $grpc.ClientMethod<$0.TaskParentModel, $0.TaskParentModel>(
-      '/TaskService/GetTaskList',
+  static final _$getTaskParentList = $grpc.ClientMethod<$0.TaskParentModel, $0.TaskParentModel>(
+      '/TaskService/GetTaskParentList',
       ($0.TaskParentModel value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.TaskParentModel.fromBuffer(value));
+  static final _$getTaskList = $grpc.ClientMethod<$0.TaskParentModel, $0.TaskModel>(
+      '/TaskService/GetTaskList',
+      ($0.TaskParentModel value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.TaskModel.fromBuffer(value));
   static final _$addTask = $grpc.ClientMethod<$0.TaskModel, $0.TaskModel>(
       '/TaskService/AddTask',
       ($0.TaskModel value) => value.writeToBuffer(),
@@ -44,7 +48,11 @@ class TaskServiceClient extends $grpc.Client {
       : super(channel, options: options,
         interceptors: interceptors);
 
-  $grpc.ResponseFuture<$0.TaskParentModel> getTaskList($0.TaskParentModel request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$0.TaskParentModel> getTaskParentList($0.TaskParentModel request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getTaskParentList, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.TaskModel> getTaskList($0.TaskParentModel request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getTaskList, request, options: options);
   }
 
@@ -67,12 +75,19 @@ abstract class TaskServiceBase extends $grpc.Service {
 
   TaskServiceBase() {
     $addMethod($grpc.ServiceMethod<$0.TaskParentModel, $0.TaskParentModel>(
+        'GetTaskParentList',
+        getTaskParentList_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.TaskParentModel.fromBuffer(value),
+        ($0.TaskParentModel value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.TaskParentModel, $0.TaskModel>(
         'GetTaskList',
         getTaskList_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.TaskParentModel.fromBuffer(value),
-        ($0.TaskParentModel value) => value.writeToBuffer()));
+        ($0.TaskModel value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.TaskModel, $0.TaskModel>(
         'AddTask',
         addTask_Pre,
@@ -96,7 +111,11 @@ abstract class TaskServiceBase extends $grpc.Service {
         ($0.TaskModel value) => value.writeToBuffer()));
   }
 
-  $async.Future<$0.TaskParentModel> getTaskList_Pre($grpc.ServiceCall call, $async.Future<$0.TaskParentModel> request) async {
+  $async.Future<$0.TaskParentModel> getTaskParentList_Pre($grpc.ServiceCall call, $async.Future<$0.TaskParentModel> request) async {
+    return getTaskParentList(call, await request);
+  }
+
+  $async.Future<$0.TaskModel> getTaskList_Pre($grpc.ServiceCall call, $async.Future<$0.TaskParentModel> request) async {
     return getTaskList(call, await request);
   }
 
@@ -112,8 +131,67 @@ abstract class TaskServiceBase extends $grpc.Service {
     return deleteTask(call, await request);
   }
 
-  $async.Future<$0.TaskParentModel> getTaskList($grpc.ServiceCall call, $0.TaskParentModel request);
+  $async.Future<$0.TaskParentModel> getTaskParentList($grpc.ServiceCall call, $0.TaskParentModel request);
+  $async.Future<$0.TaskModel> getTaskList($grpc.ServiceCall call, $0.TaskParentModel request);
   $async.Future<$0.TaskModel> addTask($grpc.ServiceCall call, $0.TaskModel request);
   $async.Future<$0.TaskModel> updateTask($grpc.ServiceCall call, $0.TaskModel request);
   $async.Future<$0.TaskModel> deleteTask($grpc.ServiceCall call, $0.TaskModel request);
+}
+@$pb.GrpcServiceName('Greeter')
+class GreeterClient extends $grpc.Client {
+  static final _$sayHello = $grpc.ClientMethod<$0.HelloRequest, $0.HelloReply>(
+      '/Greeter/SayHello',
+      ($0.HelloRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.HelloReply.fromBuffer(value));
+  static final _$sayHelloAgain = $grpc.ClientMethod<$0.HelloRequest, $0.HelloReply>(
+      '/Greeter/SayHelloAgain',
+      ($0.HelloRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.HelloReply.fromBuffer(value));
+
+  GreeterClient($grpc.ClientChannel channel,
+      {$grpc.CallOptions? options,
+      $core.Iterable<$grpc.ClientInterceptor>? interceptors})
+      : super(channel, options: options,
+        interceptors: interceptors);
+
+  $grpc.ResponseFuture<$0.HelloReply> sayHello($0.HelloRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$sayHello, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.HelloReply> sayHelloAgain($0.HelloRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$sayHelloAgain, request, options: options);
+  }
+}
+
+@$pb.GrpcServiceName('Greeter')
+abstract class GreeterServiceBase extends $grpc.Service {
+  $core.String get $name => 'Greeter';
+
+  GreeterServiceBase() {
+    $addMethod($grpc.ServiceMethod<$0.HelloRequest, $0.HelloReply>(
+        'SayHello',
+        sayHello_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.HelloRequest.fromBuffer(value),
+        ($0.HelloReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.HelloRequest, $0.HelloReply>(
+        'SayHelloAgain',
+        sayHelloAgain_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.HelloRequest.fromBuffer(value),
+        ($0.HelloReply value) => value.writeToBuffer()));
+  }
+
+  $async.Future<$0.HelloReply> sayHello_Pre($grpc.ServiceCall call, $async.Future<$0.HelloRequest> request) async {
+    return sayHello(call, await request);
+  }
+
+  $async.Future<$0.HelloReply> sayHelloAgain_Pre($grpc.ServiceCall call, $async.Future<$0.HelloRequest> request) async {
+    return sayHelloAgain(call, await request);
+  }
+
+  $async.Future<$0.HelloReply> sayHello($grpc.ServiceCall call, $0.HelloRequest request);
+  $async.Future<$0.HelloReply> sayHelloAgain($grpc.ServiceCall call, $0.HelloRequest request);
 }

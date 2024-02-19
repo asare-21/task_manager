@@ -47,3 +47,27 @@ final $typed_data.Uint8List taskParentModelDescriptor = $convert.base64Decode(
     'BCADKAsyCi5UYXNrTW9kZWxSBXRhc2tzEhIKBGRhdGUYBSABKAlSBGRhdGUSEgoEdGltZRgGIA'
     'EoCVIEdGltZQ==');
 
+@$core.Deprecated('Use helloRequestDescriptor instead')
+const HelloRequest$json = {
+  '1': 'HelloRequest',
+  '2': [
+    {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
+  ],
+};
+
+/// Descriptor for `HelloRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List helloRequestDescriptor = $convert.base64Decode(
+    'CgxIZWxsb1JlcXVlc3QSEgoEbmFtZRgBIAEoCVIEbmFtZQ==');
+
+@$core.Deprecated('Use helloReplyDescriptor instead')
+const HelloReply$json = {
+  '1': 'HelloReply',
+  '2': [
+    {'1': 'message', '3': 1, '4': 1, '5': 9, '10': 'message'},
+  ],
+};
+
+/// Descriptor for `HelloReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List helloReplyDescriptor = $convert.base64Decode(
+    'CgpIZWxsb1JlcGx5EhgKB21lc3NhZ2UYASABKAlSB21lc3NhZ2U=');
+

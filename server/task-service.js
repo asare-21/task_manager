@@ -19,7 +19,10 @@ var taskDescriptor = grpc.loadPackageDefinition(packageDefinition);
 // The taskDescriptor object has the full package hierarchy
 var routeguide = taskDescriptor.routeguide;
 
-function getTaskList() { }
+function getTaskParentList() {
+    // check if task is in cache
+}
+function getTaskParentTasks() { }
 function addTask() { }
 function deleteTask() { }
 function updateTask() { }
