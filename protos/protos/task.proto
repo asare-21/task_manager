@@ -13,3 +13,10 @@ message TaskParentModel {
   string date = 5;
   string time = 6;
 }
+
+service TaskService {
+  rpc GetTaskList(TaskParentModel) returns (TaskParentModel) {}
+  rpc AddTask(TaskModel) returns (TaskModel) {}
+  rpc UpdateTask(TaskModel) returns (TaskModel) {}
+  rpc DeleteTask(TaskModel) returns (TaskModel) {}
+}
