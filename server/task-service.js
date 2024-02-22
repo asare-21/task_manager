@@ -2,6 +2,7 @@ var grpc = require('@grpc/grpc-js');
 console.log(__dirname)
 var PROTO_PATH = '../protos/protos/task.proto'; // gRPC
 var protoLoader = require('@grpc/proto-loader'); // gRPC
+const { taskParent, task } = require('./schema/task-parent-schema');
 var server = new grpc.Server(); // gRPC
 
 
@@ -22,24 +23,49 @@ var routeguide = taskDescriptor.routeguide;
 function getTaskParentList() {
     // check if task is in cache
 }
-function getTaskParentTasks() { 
-    
+function getTaskParentTasks() {
+
 }
 function addTask() { }
 function deleteTask() { }
 function updateTask() { }
+function addTaskParent(call, callback) {
+    console.log('addTaskParent called')
+    console.log(call.request)
+    try {
+        const tp = taskParent({
+            title: call.request.title,
+            description: call.request.description,
+            subtitle: call.request.subtitle,
+            completed: call.request.completed,
+            date: call.request.date,
+            time: call.request.time
+        })
+        const { tasks } = call.request
 
-function sayHello(call, callback) {
+        tasks.forEach(taskElement => {
+            tp.tasks.push(task({
+                title: taskElement.title,
+                isDone: taskElement.isDone
+            }))
+        })
+
+
+    }
+    catch (e) { }
     callback(null, { message: 'Hello ' + call.request.name });
 }
 
-function sayHelloAgain(call, callback) {
-    callback(null, { message: 'Hello again, ' + call.request.name });
-}
 
 function main() {
-    server.addService(taskDescriptor.Greeter.service,
-        { sayHello: sayHello, sayHelloAgain: sayHelloAgain });
+    server.addService(taskDescriptor.TaskService.service, {
+        getTaskParentList: getTaskParentList,
+        getTaskParentTasks: getTaskParentTasks,
+        addTask: addTask,
+        deleteTask: deleteTask,
+        updateTask: updateTask,
+        addTaskParent: addTaskParent
+    });
     server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), () => {
         server.start();
     });

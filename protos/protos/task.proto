@@ -20,6 +20,7 @@ service TaskService {
   rpc AddTask(TaskModel) returns (TaskModel) {}
   rpc UpdateTask(TaskModel) returns (TaskModel) {}
   rpc DeleteTask(TaskModel) returns (TaskModel) {}
+  rpc AddTaskParent(TaskParentModel) returns (TaskParentModel) {}
 }
 
 

@@ -41,6 +41,10 @@ class TaskServiceClient extends $grpc.Client {
       '/TaskService/DeleteTask',
       ($0.TaskModel value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.TaskModel.fromBuffer(value));
+  static final _$addTaskParent = $grpc.ClientMethod<$0.TaskParentModel, $0.TaskParentModel>(
+      '/TaskService/AddTaskParent',
+      ($0.TaskParentModel value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.TaskParentModel.fromBuffer(value));
 
   TaskServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -66,6 +70,10 @@ class TaskServiceClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.TaskModel> deleteTask($0.TaskModel request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$deleteTask, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.TaskParentModel> addTaskParent($0.TaskParentModel request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$addTaskParent, request, options: options);
   }
 }
 
@@ -109,6 +117,13 @@ abstract class TaskServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.TaskModel.fromBuffer(value),
         ($0.TaskModel value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.TaskParentModel, $0.TaskParentModel>(
+        'AddTaskParent',
+        addTaskParent_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.TaskParentModel.fromBuffer(value),
+        ($0.TaskParentModel value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.TaskParentModel> getTaskParentList_Pre($grpc.ServiceCall call, $async.Future<$0.TaskParentModel> request) async {
@@ -131,11 +146,16 @@ abstract class TaskServiceBase extends $grpc.Service {
     return deleteTask(call, await request);
   }
 
+  $async.Future<$0.TaskParentModel> addTaskParent_Pre($grpc.ServiceCall call, $async.Future<$0.TaskParentModel> request) async {
+    return addTaskParent(call, await request);
+  }
+
   $async.Future<$0.TaskParentModel> getTaskParentList($grpc.ServiceCall call, $0.TaskParentModel request);
   $async.Future<$0.TaskModel> getTaskList($grpc.ServiceCall call, $0.TaskParentModel request);
   $async.Future<$0.TaskModel> addTask($grpc.ServiceCall call, $0.TaskModel request);
   $async.Future<$0.TaskModel> updateTask($grpc.ServiceCall call, $0.TaskModel request);
   $async.Future<$0.TaskModel> deleteTask($grpc.ServiceCall call, $0.TaskModel request);
+  $async.Future<$0.TaskParentModel> addTaskParent($grpc.ServiceCall call, $0.TaskParentModel request);
 }
 @$pb.GrpcServiceName('Greeter')
 class GreeterClient extends $grpc.Client {
