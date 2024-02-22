@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manager/config/globals.dart';
 import 'package:task_manager/config/go_router.dart';
 import 'package:task_manager/provider/task_provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (context) => TaskProvider(),
     )
   ], child: const MyApp()));
+  await SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp]); // sent device orientation
 }
 
 class MyApp extends StatelessWidget {

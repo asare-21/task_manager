@@ -1,60 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
-import 'package:protos/src/generated/task.pbgrpc.dart';
+import 'package:protos/protos.dart';
 
-final _channel = ClientChannel('127.0.0.1',
+final _channel = ClientChannel('localhost',
     port: 50051,
     options: const ChannelOptions(credentials: ChannelCredentials.insecure()));
 
 var _stub = TaskServiceClient(_channel,
     options: CallOptions(timeout: const Duration(seconds: 30)));
+var _secondStud = GreeterClient(_channel,
+    options: CallOptions(timeout: const Duration(seconds: 30)));
 
 class GRPCProvider extends ChangeNotifier {
-  TaskParentModel taskParentModel = TaskParentModel();
-  TaskModel taskModel = TaskModel();
+  Future<void> createTaskParent(TaskParentModel taskParentModel) async {
+    try {
+      var response = await _stub.addTaskParent(taskParentModel);
+      debugPrint('Response: ${response.writeToJson()}');
+    } catch (e) {
+      debugPrint('Caught error: $e');
+    }
+  }
 
-  Future<void> getTaskParentList() async {
+  Future<void> getTaskParentList(TaskParentModel taskParentModel) async {
     try {
       var response = await _stub.getTaskParentList(taskParentModel);
-      print('Response: ${response.writeToJson()}');
+      debugPrint('Response: ${response.writeToJson()}');
     } catch (e) {
-      print('Caught error: $e');
+      debugPrint('Caught error: $e');
     }
   }
 
-  Future<void> getTaskList() async {
+  Future<void> getTaskList(TaskParentModel taskParentModel) async {
     try {
       var response = await _stub.getTaskList(taskParentModel);
-      print('Response: ${response.writeToJson()}');
+      debugPrint('Response: ${response.writeToJson()}');
     } catch (e) {
-      print('Caught error: $e');
+      debugPrint('Caught error: $e');
     }
   }
 
-  Future<void> addTask() async {
+  Future<void> addTask(TaskModel taskModel) async {
     try {
       var response = await _stub.addTask(taskModel);
-      print('Response: ${response.writeToJson()}');
+      debugPrint('Response: ${response.writeToJson()}');
     } catch (e) {
-      print('Caught error: $e');
+      debugPrint('Caught error: $e');
     }
   }
 
-  Future<void> updateTask() async {
+  Future<void> updateTask(TaskModel taskModel) async {
     try {
       var response = await _stub.updateTask(taskModel);
-      print('Response: ${response.writeToJson()}');
+      debugPrint('Response: ${response.writeToJson()}');
     } catch (e) {
-      print('Caught error: $e');
+      debugPrint('Caught error: $e');
     }
   }
 
-  Future<void> deleteTask() async {
+  Future<void> deleteTask(TaskModel taskModel) async {
     try {
       var response = await _stub.deleteTask(taskModel);
-      print('Response: ${response.writeToJson()}');
+      debugPrint('Response: ${response.writeToJson()}');
     } catch (e) {
-      print('Caught error: $e');
+      debugPrint('Caught error: $e');
+    }
+  }
+
+  Future<void> sayHello() async {
+    try {
+      var response = await _secondStud.sayHello(HelloRequest()..name = 'Dart');
+      debugPrint('Response: ${response.writeToJson()}');
+    } catch (e) {
+      debugPrint('Caught error: $e');
     }
   }
 }

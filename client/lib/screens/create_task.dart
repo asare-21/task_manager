@@ -6,7 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:task_manager/config/globals.dart';
 import 'package:task_manager/models/task_model.dart';
 import 'package:task_manager/models/task_parent_class.dart';
+import 'package:task_manager/provider/grpc_provider.dart';
 import 'package:task_manager/provider/task_provider.dart';
+import 'package:protos/protos.dart' as proto;
 
 class CreateTaskScreen extends StatefulWidget {
   const CreateTaskScreen({super.key});
@@ -119,7 +121,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
     }
   }
 
-  void saveTaskParent() {
+  void saveTaskParent() async {
     // throw error if _task is empty
     if (_tasks.isEmpty) {
       Fluttertoast.showToast(
@@ -145,6 +147,15 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
           time: selectedTime ?? "No time",
           tasks: _tasks);
       taskProvider.createTaskParent(taskParent);
+      await GRPCProvider().createTaskParent(proto.TaskParentModel(
+          date: taskParent.date,
+          description: taskParent.description,
+          subtitle: taskParent.subtitle,
+          time: taskParent.time,
+          title: taskParent.title,
+          tasks: taskParent.tasks
+              .map((e) => proto.TaskModel(title: e.title, isDone: e.isDone))
+              .toList()));
       Navigator.of(context).pop();
     }
   }
