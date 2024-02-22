@@ -25,6 +25,10 @@ class TaskServiceClient extends $grpc.Client {
       '/TaskService/GetTaskParentList',
       ($0.TaskParentModel value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.TaskParentModel.fromBuffer(value));
+  static final _$sTaskParentList = $grpc.ClientMethod<$0.TaskParentModel, $0.TaskParentModel>(
+      '/TaskService/sTaskParentList',
+      ($0.TaskParentModel value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.TaskParentModel.fromBuffer(value));
   static final _$getTaskList = $grpc.ClientMethod<$0.TaskParentModel, $0.TaskModel>(
       '/TaskService/GetTaskList',
       ($0.TaskParentModel value) => value.writeToBuffer(),
@@ -54,6 +58,10 @@ class TaskServiceClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.TaskParentModel> getTaskParentList($0.TaskParentModel request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getTaskParentList, request, options: options);
+  }
+
+  $grpc.ResponseStream<$0.TaskParentModel> sTaskParentList($0.TaskParentModel request, {$grpc.CallOptions? options}) {
+    return $createStreamingCall(_$sTaskParentList, $async.Stream.fromIterable([request]), options: options);
   }
 
   $grpc.ResponseFuture<$0.TaskModel> getTaskList($0.TaskParentModel request, {$grpc.CallOptions? options}) {
@@ -87,6 +95,13 @@ abstract class TaskServiceBase extends $grpc.Service {
         getTaskParentList_Pre,
         false,
         false,
+        ($core.List<$core.int> value) => $0.TaskParentModel.fromBuffer(value),
+        ($0.TaskParentModel value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.TaskParentModel, $0.TaskParentModel>(
+        'sTaskParentList',
+        sTaskParentList_Pre,
+        false,
+        true,
         ($core.List<$core.int> value) => $0.TaskParentModel.fromBuffer(value),
         ($0.TaskParentModel value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.TaskParentModel, $0.TaskModel>(
@@ -130,6 +145,10 @@ abstract class TaskServiceBase extends $grpc.Service {
     return getTaskParentList(call, await request);
   }
 
+  $async.Stream<$0.TaskParentModel> sTaskParentList_Pre($grpc.ServiceCall call, $async.Future<$0.TaskParentModel> request) async* {
+    yield* sTaskParentList(call, await request);
+  }
+
   $async.Future<$0.TaskModel> getTaskList_Pre($grpc.ServiceCall call, $async.Future<$0.TaskParentModel> request) async {
     return getTaskList(call, await request);
   }
@@ -151,6 +170,7 @@ abstract class TaskServiceBase extends $grpc.Service {
   }
 
   $async.Future<$0.TaskParentModel> getTaskParentList($grpc.ServiceCall call, $0.TaskParentModel request);
+  $async.Stream<$0.TaskParentModel> sTaskParentList($grpc.ServiceCall call, $0.TaskParentModel request);
   $async.Future<$0.TaskModel> getTaskList($grpc.ServiceCall call, $0.TaskParentModel request);
   $async.Future<$0.TaskModel> addTask($grpc.ServiceCall call, $0.TaskModel request);
   $async.Future<$0.TaskModel> updateTask($grpc.ServiceCall call, $0.TaskModel request);

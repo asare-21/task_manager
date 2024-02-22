@@ -12,10 +12,26 @@ var _secondStud = GreeterClient(_channel,
     options: CallOptions(timeout: const Duration(seconds: 30)));
 
 class GRPCProvider extends ChangeNotifier {
+  Stream streamTaskParentList() async* {
+    try {
+      var response = _stub.sTaskParentList((TaskParentModel(
+          title: 'title',
+          description: 'description',
+          subtitle: "",
+          date: "2022-10-10",
+          tasks: [],
+          time: "")));
+      print('Response: ${response.asBroadcastStream()}');
+      yield response;
+    } catch (e) {
+      debugPrint('Caught error: $e');
+    }
+  }
+
   Future<void> createTaskParent(TaskParentModel taskParentModel) async {
     try {
       var response = await _stub.addTaskParent(taskParentModel);
-      debugPrint('Response: ${response.writeToJson()}');
+      debugPrint('Response: ${response.title}');
     } catch (e) {
       debugPrint('Caught error: $e');
     }

@@ -15,7 +15,8 @@ message TaskParentModel {
 }
 
 service TaskService {
-  rpc GetTaskParentList(TaskParentModel) returns (TaskParentModel) {}
+  rpc GetTaskParentList( TaskParentModel) returns ( TaskParentModel) {}
+  rpc sTaskParentList( TaskParentModel) returns (stream TaskParentModel) {}
   rpc GetTaskList(TaskParentModel) returns (TaskModel) {}
   rpc AddTask(TaskModel) returns (TaskModel) {}
   rpc UpdateTask(TaskModel) returns (TaskModel) {}
