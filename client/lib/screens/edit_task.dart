@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
+import 'package:protos/protos.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manager/config/globals.dart';
-import 'package:task_manager/models/task_model.dart';
-import 'package:task_manager/models/task_parent_class.dart';
 import 'package:task_manager/provider/task_provider.dart';
 
 class EditTaskScreen extends StatefulWidget {
@@ -14,8 +13,6 @@ class EditTaskScreen extends StatefulWidget {
   @override
   State<EditTaskScreen> createState() => _EditTaskScreenState();
 }
-
-
 
 class _EditTaskScreenState extends State<EditTaskScreen> {
   // form key
@@ -451,7 +448,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                                 int index = _tasks.indexWhere((element) {
                                   return element.title == e.title;
                                 });
-                                _tasks[index].toggleDone();
+                                // TODO: Toggle status of the task
+                                // _tasks[index].toggleDone();
                                 setState(() {});
                               },
                               toggleable: true,

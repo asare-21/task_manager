@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:task_manager/models/task_parent_class.dart';
+import 'package:protos/protos.dart';
 import 'package:task_manager/screens/create_task.dart';
 import 'package:task_manager/screens/edit_task.dart';
 import 'package:task_manager/screens/home_screen.dart';

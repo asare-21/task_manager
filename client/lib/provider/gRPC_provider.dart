@@ -8,52 +8,43 @@ final _channel = ClientChannel('localhost',
 
 var _stub = TaskServiceClient(_channel,
     options: CallOptions(timeout: const Duration(seconds: 30)));
-var _secondStud = GreeterClient(_channel,
-    options: CallOptions(timeout: const Duration(seconds: 30)));
 
 class GRPCProvider extends ChangeNotifier {
-  Stream streamTaskParentList() async* {
-    try {
-      var response = _stub.sTaskParentList((TaskParentModel(
-          title: 'title',
-          description: 'description',
-          subtitle: "",
-          date: "2022-10-10",
-          tasks: [],
-          time: "")));
-      print('Response: ${response.asBroadcastStream()}');
-      yield response;
-    } catch (e) {
-      debugPrint('Caught error: $e');
-    }
-  }
-
+  final List<TaskParentModel> _taskParents = [];
+  List<TaskParentModel> get taskParents => _taskParents;
   Future<void> createTaskParent(TaskParentModel taskParentModel) async {
     try {
       var response = await _stub.addTaskParent(taskParentModel);
-      debugPrint('Response: ${response.title}');
+      debugPrint('Response: $response');
     } catch (e) {
       debugPrint('Caught error: $e');
     }
   }
 
-  Future<void> getTaskParentList(TaskParentModel taskParentModel) async {
+  Future<void> getTaskParentList(User user) async {
     try {
-      var response = await _stub.getTaskParentList(taskParentModel);
-      debugPrint('Response: ${response.writeToJson()}');
+      var response = await _stub.getTaskParentList(user);
+
+      for (var element in response.taskParents) {
+        if (!_taskParents.contains(element)) {
+          _taskParents.add(element);
+        }
+      }
+
+      notifyListeners();
     } catch (e) {
       debugPrint('Caught error: $e');
     }
   }
 
-  Future<void> getTaskList(TaskParentModel taskParentModel) async {
-    try {
-      var response = await _stub.getTaskList(taskParentModel);
-      debugPrint('Response: ${response.writeToJson()}');
-    } catch (e) {
-      debugPrint('Caught error: $e');
-    }
-  }
+  // Future<void> getTaskList(User user) async {
+  //   try {
+  //     var response = await _stub.getTaskParentList(user);
+  //     debugPrint('Response: ${response.taskParents[0].title}');
+  //   } catch (e) {
+  //     debugPrint('Caught error: $e');
+  //   }
+  // }
 
   Future<void> addTask(TaskModel taskModel) async {
     try {
@@ -76,15 +67,6 @@ class GRPCProvider extends ChangeNotifier {
   Future<void> deleteTask(TaskModel taskModel) async {
     try {
       var response = await _stub.deleteTask(taskModel);
-      debugPrint('Response: ${response.writeToJson()}');
-    } catch (e) {
-      debugPrint('Caught error: $e');
-    }
-  }
-
-  Future<void> sayHello() async {
-    try {
-      var response = await _secondStud.sayHello(HelloRequest()..name = 'Dart');
       debugPrint('Response: ${response.writeToJson()}');
     } catch (e) {
       debugPrint('Caught error: $e');

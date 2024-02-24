@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
+import 'package:protos/protos.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manager/config/globals.dart';
-import 'package:task_manager/models/task_model.dart';
-import 'package:task_manager/models/task_parent_class.dart';
 import 'package:task_manager/provider/grpc_provider.dart';
 import 'package:task_manager/provider/task_provider.dart';
 import 'package:protos/protos.dart' as proto;
@@ -461,7 +460,8 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                                 int index = _tasks.indexWhere((element) {
                                   return element.title == e.title;
                                 });
-                                _tasks[index].toggleDone();
+                                // TODO: Toggle status of the task
+                                // _tasks[index].toggleDone();
                                 setState(() {});
                               },
                               toggleable: true,

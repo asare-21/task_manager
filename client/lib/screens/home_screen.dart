@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:protos/protos.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manager/config/globals.dart';
+import 'package:task_manager/provider/gRPC_provider.dart';
 import 'package:task_manager/provider/task_provider.dart';
 import 'package:task_manager/widgets/no_task_parent.dart';
 import 'package:task_manager/widgets/search_widget.dart';
@@ -59,12 +61,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? Container()
                   : const SearchWidget()),
           const Gap(5),
-          Consumer<TaskProvider>(
+          Consumer<GRPCProvider>(
               builder: (context, value, child) => value.taskParents.isEmpty
                   ? const NoTaskParent()
                   : const TaskProgress()),
           const Gap(20),
-          const StaggeredGridViewF()
+          FutureBuilder(
+            future:
+                context.read<GRPCProvider>().getTaskParentList(User(id: "sd")),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return const StaggeredGridViewF();
+            },
+          ),
+          
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

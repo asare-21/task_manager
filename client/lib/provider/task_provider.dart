@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/models/task_model.dart';
-import 'package:task_manager/models/task_parent_class.dart';
+import 'package:protos/protos.dart';
+
 
 class TaskProvider with ChangeNotifier {
   final List<TaskParentModel> _tasksParents = [];
