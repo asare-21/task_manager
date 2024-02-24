@@ -15,15 +15,23 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 class TaskModel extends $pb.GeneratedMessage {
   factory TaskModel({
+    $core.String? id,
     $core.String? title,
     $core.bool? isDone,
+    $core.String? parent,
   }) {
     final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
     if (title != null) {
       $result.title = title;
     }
     if (isDone != null) {
       $result.isDone = isDone;
+    }
+    if (parent != null) {
+      $result.parent = parent;
     }
     return $result;
   }
@@ -32,8 +40,10 @@ class TaskModel extends $pb.GeneratedMessage {
   factory TaskModel.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'TaskModel', createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'title')
-    ..aOB(2, _omitFieldNames ? '' : 'isDone')
+    ..aOS(1, _omitFieldNames ? '' : 'Id')
+    ..aOS(2, _omitFieldNames ? '' : 'title')
+    ..aOB(3, _omitFieldNames ? '' : 'isDone')
+    ..aOS(4, _omitFieldNames ? '' : 'parent')
     ..hasRequiredFields = false
   ;
 
@@ -59,22 +69,90 @@ class TaskModel extends $pb.GeneratedMessage {
   static TaskModel? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get title => $_getSZ(0);
+  $core.String get id => $_getSZ(0);
   @$pb.TagNumber(1)
-  set title($core.String v) { $_setString(0, v); }
+  set id($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasTitle() => $_has(0);
+  $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearTitle() => clearField(1);
+  void clearId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.bool get isDone => $_getBF(1);
+  $core.String get title => $_getSZ(1);
   @$pb.TagNumber(2)
-  set isDone($core.bool v) { $_setBool(1, v); }
+  set title($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasIsDone() => $_has(1);
+  $core.bool hasTitle() => $_has(1);
   @$pb.TagNumber(2)
-  void clearIsDone() => clearField(2);
+  void clearTitle() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.bool get isDone => $_getBF(2);
+  @$pb.TagNumber(3)
+  set isDone($core.bool v) { $_setBool(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasIsDone() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearIsDone() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get parent => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set parent($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasParent() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearParent() => clearField(4);
+}
+
+class User extends $pb.GeneratedMessage {
+  factory User({
+    $core.String? id,
+  }) {
+    final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
+    return $result;
+  }
+  User._() : super();
+  factory User.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory User.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'User', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'id')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  User clone() => User()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  User copyWith(void Function(User) updates) => super.copyWith((message) => updates(message as User)) as User;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static User create() => User._();
+  User createEmptyInstance() => create();
+  static $pb.PbList<User> createRepeated() => $pb.PbList<User>();
+  @$core.pragma('dart2js:noInline')
+  static User getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<User>(create);
+  static User? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
 }
 
 class TaskParentModel extends $pb.GeneratedMessage {
@@ -85,6 +163,7 @@ class TaskParentModel extends $pb.GeneratedMessage {
     $core.Iterable<TaskModel>? tasks,
     $core.String? date,
     $core.String? time,
+    $core.String? id,
   }) {
     final $result = create();
     if (title != null) {
@@ -105,6 +184,9 @@ class TaskParentModel extends $pb.GeneratedMessage {
     if (time != null) {
       $result.time = time;
     }
+    if (id != null) {
+      $result.id = id;
+    }
     return $result;
   }
   TaskParentModel._() : super();
@@ -118,6 +200,7 @@ class TaskParentModel extends $pb.GeneratedMessage {
     ..pc<TaskModel>(4, _omitFieldNames ? '' : 'tasks', $pb.PbFieldType.PM, subBuilder: TaskModel.create)
     ..aOS(5, _omitFieldNames ? '' : 'date')
     ..aOS(6, _omitFieldNames ? '' : 'time')
+    ..aOS(7, _omitFieldNames ? '' : 'Id')
     ..hasRequiredFields = false
   ;
 
@@ -189,25 +272,33 @@ class TaskParentModel extends $pb.GeneratedMessage {
   $core.bool hasTime() => $_has(5);
   @$pb.TagNumber(6)
   void clearTime() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.String get id => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set id($core.String v) { $_setString(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasId() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearId() => clearField(7);
 }
 
-/// The request message containing the user's name.
-class HelloRequest extends $pb.GeneratedMessage {
-  factory HelloRequest({
-    $core.String? name,
+class TaskParentListResponse extends $pb.GeneratedMessage {
+  factory TaskParentListResponse({
+    $core.Iterable<TaskParentModel>? taskParents,
   }) {
     final $result = create();
-    if (name != null) {
-      $result.name = name;
+    if (taskParents != null) {
+      $result.taskParents.addAll(taskParents);
     }
     return $result;
   }
-  HelloRequest._() : super();
-  factory HelloRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory HelloRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  TaskParentListResponse._() : super();
+  factory TaskParentListResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory TaskParentListResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'HelloRequest', createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'name')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'TaskParentListResponse', createEmptyInstance: create)
+    ..pc<TaskParentModel>(1, _omitFieldNames ? '' : 'taskParents', $pb.PbFieldType.PM, subBuilder: TaskParentModel.create)
     ..hasRequiredFields = false
   ;
 
@@ -215,50 +306,53 @@ class HelloRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  HelloRequest clone() => HelloRequest()..mergeFromMessage(this);
+  TaskParentListResponse clone() => TaskParentListResponse()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  HelloRequest copyWith(void Function(HelloRequest) updates) => super.copyWith((message) => updates(message as HelloRequest)) as HelloRequest;
+  TaskParentListResponse copyWith(void Function(TaskParentListResponse) updates) => super.copyWith((message) => updates(message as TaskParentListResponse)) as TaskParentListResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static HelloRequest create() => HelloRequest._();
-  HelloRequest createEmptyInstance() => create();
-  static $pb.PbList<HelloRequest> createRepeated() => $pb.PbList<HelloRequest>();
+  static TaskParentListResponse create() => TaskParentListResponse._();
+  TaskParentListResponse createEmptyInstance() => create();
+  static $pb.PbList<TaskParentListResponse> createRepeated() => $pb.PbList<TaskParentListResponse>();
   @$core.pragma('dart2js:noInline')
-  static HelloRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<HelloRequest>(create);
-  static HelloRequest? _defaultInstance;
+  static TaskParentListResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<TaskParentListResponse>(create);
+  static TaskParentListResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get name => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set name($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasName() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  $core.List<TaskParentModel> get taskParents => $_getList(0);
 }
 
-/// The response message containing the greetings
-class HelloReply extends $pb.GeneratedMessage {
-  factory HelloReply({
-    $core.String? message,
+class TaskModelUpdate extends $pb.GeneratedMessage {
+  factory TaskModelUpdate({
+    TaskModel? task,
+    $core.String? parent,
+    User? user,
   }) {
     final $result = create();
-    if (message != null) {
-      $result.message = message;
+    if (task != null) {
+      $result.task = task;
+    }
+    if (parent != null) {
+      $result.parent = parent;
+    }
+    if (user != null) {
+      $result.user = user;
     }
     return $result;
   }
-  HelloReply._() : super();
-  factory HelloReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory HelloReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  TaskModelUpdate._() : super();
+  factory TaskModelUpdate.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory TaskModelUpdate.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'HelloReply', createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'message')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'TaskModelUpdate', createEmptyInstance: create)
+    ..aOM<TaskModel>(1, _omitFieldNames ? '' : 'task', subBuilder: TaskModel.create)
+    ..aOS(2, _omitFieldNames ? '' : 'parent')
+    ..aOM<User>(3, _omitFieldNames ? '' : 'user', subBuilder: User.create)
     ..hasRequiredFields = false
   ;
 
@@ -266,31 +360,53 @@ class HelloReply extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  HelloReply clone() => HelloReply()..mergeFromMessage(this);
+  TaskModelUpdate clone() => TaskModelUpdate()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  HelloReply copyWith(void Function(HelloReply) updates) => super.copyWith((message) => updates(message as HelloReply)) as HelloReply;
+  TaskModelUpdate copyWith(void Function(TaskModelUpdate) updates) => super.copyWith((message) => updates(message as TaskModelUpdate)) as TaskModelUpdate;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static HelloReply create() => HelloReply._();
-  HelloReply createEmptyInstance() => create();
-  static $pb.PbList<HelloReply> createRepeated() => $pb.PbList<HelloReply>();
+  static TaskModelUpdate create() => TaskModelUpdate._();
+  TaskModelUpdate createEmptyInstance() => create();
+  static $pb.PbList<TaskModelUpdate> createRepeated() => $pb.PbList<TaskModelUpdate>();
   @$core.pragma('dart2js:noInline')
-  static HelloReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<HelloReply>(create);
-  static HelloReply? _defaultInstance;
+  static TaskModelUpdate getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<TaskModelUpdate>(create);
+  static TaskModelUpdate? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get message => $_getSZ(0);
+  TaskModel get task => $_getN(0);
   @$pb.TagNumber(1)
-  set message($core.String v) { $_setString(0, v); }
+  set task(TaskModel v) { setField(1, v); }
   @$pb.TagNumber(1)
-  $core.bool hasMessage() => $_has(0);
+  $core.bool hasTask() => $_has(0);
   @$pb.TagNumber(1)
-  void clearMessage() => clearField(1);
+  void clearTask() => clearField(1);
+  @$pb.TagNumber(1)
+  TaskModel ensureTask() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  $core.String get parent => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set parent($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasParent() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearParent() => clearField(2);
+
+  @$pb.TagNumber(3)
+  User get user => $_getN(2);
+  @$pb.TagNumber(3)
+  set user(User v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasUser() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearUser() => clearField(3);
+  @$pb.TagNumber(3)
+  User ensureUser() => $_ensure(2);
 }
 
 

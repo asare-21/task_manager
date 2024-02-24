@@ -123,10 +123,10 @@ class StaggeredGridViewF extends StatelessWidget {
                                         horizontal: 10.0),
                                     child: LinearProgressIndicator(
                                       borderRadius: BorderRadius.circular(30),
-                                      // value: taskProvider
-                                      //     .getSingleTaskParentProgress(
-                                      //         taskProvider
-                                      //             .taskParents[index].title),
+                                      value: taskProvider
+                                          .getSingleTaskParentProgress(
+                                              taskProvider
+                                                  .taskParents[index].title),
                                       backgroundColor: bgColor,
                                       color: green,
                                     ),

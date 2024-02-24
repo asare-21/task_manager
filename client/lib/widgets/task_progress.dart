@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manager/config/globals.dart';
+import 'package:task_manager/provider/gRPC_provider.dart';
 import 'package:task_manager/provider/task_provider.dart';
 
 class TaskProgress extends StatelessWidget {
@@ -31,7 +32,7 @@ class TaskProgress extends StatelessWidget {
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Consumer<TaskProvider>(
+                      subtitle: Consumer<GRPCProvider>(
                         builder: (context, value, child) => Text(
                           "${value.getTotalCompletedTasks()}/${value.totalNumberOfTasks()} tasks done",
                           style: Theme.of(context)
@@ -46,7 +47,7 @@ class TaskProgress extends StatelessWidget {
                 SizedBox(
                     height: 100,
                     width: 100,
-                    child: Consumer<TaskProvider>(
+                    child: Consumer<GRPCProvider>(
                       builder: (context, taskProvider, child) => Stack(
                         alignment: Alignment.center,
                         children: [
@@ -96,9 +97,12 @@ class TaskProgress extends StatelessWidget {
                 color: const Color(0xff3f37c9),
                 borderRadius: BorderRadius.circular(30),
               ),
-              child: Consumer<TaskProvider>(
+              child: Consumer<GRPCProvider>(
                 builder: (context, taskProvider, child) => Text(
-                  taskProvider.taskParents.map((e) => e.date).join(" | "),
+                  taskProvider.taskParents
+                      .sublist(0, 4)
+                      .map((e) => e.date)
+                      .join(" | "),
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

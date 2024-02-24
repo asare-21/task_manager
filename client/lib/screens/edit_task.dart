@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:protos/protos.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manager/config/globals.dart';
+import 'package:task_manager/provider/gRPC_provider.dart';
 import 'package:task_manager/provider/task_provider.dart';
 
 class EditTaskScreen extends StatefulWidget {
@@ -444,12 +445,23 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                             Radio(
                               value: e.isDone,
                               groupValue: e.isDone,
-                              onChanged: (value) {
+                              onChanged: (value) async {
                                 int index = _tasks.indexWhere((element) {
                                   return element.title == e.title;
                                 });
+                                int parentIndex = context
+                                    .read<GRPCProvider>()
+                                    .taskParents
+                                    .indexWhere((element) =>
+                                        element.id == widget.taskParent.id);
                                 // TODO: Toggle status of the task
-                                // _tasks[index].toggleDone();
+
+                                await context.read<GRPCProvider>().updateTask(
+                                    TaskModelUpdate(
+                                        parent: widget.taskParent.id,
+                                        task: _tasks[index],
+                                        user: User(id: "sd")));
+
                                 setState(() {});
                               },
                               toggleable: true,

@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const Gap(5),
-          Consumer<TaskProvider>(
+          Consumer<GRPCProvider>(
               builder: (context, value, child) => value.taskParents.isEmpty
                   ? Container()
                   : const SearchWidget()),
@@ -76,7 +76,6 @@ class _HomeScreenState extends State<HomeScreen> {
               return const StaggeredGridViewF();
             },
           ),
-          
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

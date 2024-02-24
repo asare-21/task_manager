@@ -155,7 +155,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
           tasks: taskParent.tasks
               .map((e) => proto.TaskModel(title: e.title, isDone: e.isDone))
               .toList()));
-      Navigator.of(context).pop();
+      if (mounted) Navigator.of(context).pop();
     }
   }
 

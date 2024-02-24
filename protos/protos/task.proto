@@ -1,9 +1,16 @@
 syntax = "proto3";
 
 message TaskModel {
-  string title = 1;
-  bool is_done = 2;
+  string _id = 1;
+  string title = 2;
+  bool is_done = 3;
+  string parent = 4;
 }
+
+message User{
+  string id = 1;
+}
+
 
 message TaskParentModel {
   string title = 1;
@@ -12,33 +19,24 @@ message TaskParentModel {
   repeated TaskModel tasks = 4;
   string date = 5;
   string time = 6;
+  string _id = 7;
+}
+
+message TaskParentListResponse {
+  repeated TaskParentModel task_parents = 1;
+}
+
+message TaskModelUpdate{
+  TaskModel task = 1;
+  string parent = 2;
+  User user = 3;
 }
 
 service TaskService {
-  rpc GetTaskParentList( TaskParentModel) returns ( TaskParentModel) {}
-  rpc sTaskParentList( TaskParentModel) returns (stream TaskParentModel) {}
-  rpc GetTaskList(TaskParentModel) returns (TaskModel) {}
+  rpc GetTaskParentList(User) returns (TaskParentListResponse) {}  
   rpc AddTask(TaskModel) returns (TaskModel) {}
   rpc UpdateTask(TaskModel) returns (TaskModel) {}
   rpc DeleteTask(TaskModel) returns (TaskModel) {}
   rpc AddTaskParent(TaskParentModel) returns (TaskParentModel) {}
-}
-
-
-// The greeting service definition.
-service Greeter {
-  // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
-  // Sends another greeting
-  rpc SayHelloAgain (HelloRequest) returns (HelloReply) {}
-}
-
-// The request message containing the user's name.
-message HelloRequest {
-  string name = 1;
-}
-
-// The response message containing the greetings
-message HelloReply {
-  string message = 1;
+  rpc UpdateTaskModel(TaskModelUpdate) returns (TaskModel) {}
 }
