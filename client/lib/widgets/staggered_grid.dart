@@ -125,7 +125,7 @@ class StaggeredGridViewF extends StatelessWidget {
                                       value: taskProvider
                                           .getSingleTaskParentProgress(
                                               taskProvider
-                                                  .taskParents[index].title),
+                                                  .taskParents[index].id),
                                       backgroundColor: bgColor,
                                       color: green,
                                     ),
