@@ -88,9 +88,7 @@ class GRPCProvider extends ChangeNotifier {
 
   Future<void> createTaskParent(TaskParentModel taskParentModel) async {
     try {
-      // TODO: getUserProfile before adding taskParent
-      var response = await _stub.addTaskParent(taskParentModel);
-      debugPrint('Response: $response');
+      await _stub.addTaskParent(taskParentModel);
     } catch (e) {
       debugPrint('Caught error: $e');
     }
@@ -118,8 +116,7 @@ class GRPCProvider extends ChangeNotifier {
 
   Future<void> addTask(TaskModel taskModel) async {
     try {
-      var response = await _stub.addTask(taskModel);
-      debugPrint('Response: ${response.id}');
+      await _stub.addTask(taskModel);
     } catch (e) {
       debugPrint('Caught error: $e');
     }
@@ -128,7 +125,8 @@ class GRPCProvider extends ChangeNotifier {
   Future<void> updateTask(TaskModelUpdate taskModel) async {
     try {
       await _stub.updateTaskModel(taskModel);
-      getTaskParentList(User(id: taskModel.user.id));
+      // getTaskParentList(User(id: taskModel.user.id));
+      notifyListeners();
     } catch (e) {
       rethrow;
     }
@@ -136,8 +134,7 @@ class GRPCProvider extends ChangeNotifier {
 
   Future<void> deleteTask(TaskModel taskModel) async {
     try {
-      var response = await _stub.deleteTask(taskModel);
-      debugPrint('Response: $response');
+      await _stub.deleteTask(taskModel);
     } catch (e) {
       debugPrint('Caught error: $e');
     }
