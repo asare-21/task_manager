@@ -52,8 +52,8 @@ class TaskServiceClient extends $grpc.Client {
       : super(channel, options: options,
         interceptors: interceptors);
 
-  $grpc.ResponseFuture<$0.TaskParentListResponse> getTaskParentList($0.User request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getTaskParentList, request, options: options);
+  $grpc.ResponseStream<$0.TaskParentListResponse> getTaskParentList($0.User request, {$grpc.CallOptions? options}) {
+    return $createStreamingCall(_$getTaskParentList, $async.Stream.fromIterable([request]), options: options);
   }
 
   $grpc.ResponseFuture<$0.TaskModel> addTask($0.TaskModel request, {$grpc.CallOptions? options}) {
@@ -86,7 +86,7 @@ abstract class TaskServiceBase extends $grpc.Service {
         'GetTaskParentList',
         getTaskParentList_Pre,
         false,
-        false,
+        true,
         ($core.List<$core.int> value) => $0.User.fromBuffer(value),
         ($0.TaskParentListResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.TaskModel, $0.TaskModel>(
@@ -126,8 +126,8 @@ abstract class TaskServiceBase extends $grpc.Service {
         ($0.TaskModel value) => value.writeToBuffer()));
   }
 
-  $async.Future<$0.TaskParentListResponse> getTaskParentList_Pre($grpc.ServiceCall call, $async.Future<$0.User> request) async {
-    return getTaskParentList(call, await request);
+  $async.Stream<$0.TaskParentListResponse> getTaskParentList_Pre($grpc.ServiceCall call, $async.Future<$0.User> request) async* {
+    yield* getTaskParentList(call, await request);
   }
 
   $async.Future<$0.TaskModel> addTask_Pre($grpc.ServiceCall call, $async.Future<$0.TaskModel> request) async {
@@ -150,7 +150,7 @@ abstract class TaskServiceBase extends $grpc.Service {
     return updateTaskModel(call, await request);
   }
 
-  $async.Future<$0.TaskParentListResponse> getTaskParentList($grpc.ServiceCall call, $0.User request);
+  $async.Stream<$0.TaskParentListResponse> getTaskParentList($grpc.ServiceCall call, $0.User request);
   $async.Future<$0.TaskModel> addTask($grpc.ServiceCall call, $0.TaskModel request);
   $async.Future<$0.TaskModel> updateTask($grpc.ServiceCall call, $0.TaskModel request);
   $async.Future<$0.TaskModel> deleteTask($grpc.ServiceCall call, $0.TaskModel request);

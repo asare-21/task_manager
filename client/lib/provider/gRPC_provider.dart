@@ -12,6 +12,7 @@ var _stub = TaskServiceClient(_channel,
     options: CallOptions(timeout: const Duration(seconds: 30)));
 
 class GRPCProvider extends ChangeNotifier {
+  TaskParentListResponse? _taskParentListResponse;
   late Auth0 auth0;
   final storage = const FlutterSecureStorage(
       aOptions: AndroidOptions(
@@ -25,6 +26,7 @@ class GRPCProvider extends ChangeNotifier {
 
   final List<TaskParentModel> _taskParents = [];
   List<TaskParentModel> get taskParents => _taskParents;
+  TaskParentListResponse? get taskParentListResponse => _taskParentListResponse;
 
   Future getUserProfile() async {
     try {
@@ -94,32 +96,25 @@ class GRPCProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getTaskParentList(User user) async {
+  Stream<ResponseStream<TaskParentListResponse?>> getTaskParentList(
+      User user) async* {
     try {
-      // TODO: getUserProfile before getting taskParentList
-      var response = await _stub.getTaskParentList(user);
-
-      for (var element in response.taskParents) {
-        print(response.taskParents);
-        if (!_taskParents.contains(element)) {
-          _taskParents.add(element);
+      var response = _stub.getTaskParentList(user);
+      Stream<TaskParentListResponse> futureRes = response.asBroadcastStream();
+      await futureRes.forEach((element) {
+        for (var element in element.taskParents) {
+          if (!_taskParents.contains(element)) {
+            _taskParents.add(element);
+          }
         }
-      }
-
+      });
       notifyListeners();
+      yield response;
     } catch (e) {
       debugPrint('Caught error: $e');
+      rethrow;
     }
   }
-
-  // Future<void> getTaskList(User user) async {
-  //   try {
-  //     var response = await _stub.getTaskParentList(user);
-  //     debugPrint('Response: ${response.taskParents[0].title}');
-  //   } catch (e) {
-  //     debugPrint('Caught error: $e');
-  //   }
-  // }
 
   Future<void> addTask(TaskModel taskModel) async {
     try {
@@ -132,9 +127,8 @@ class GRPCProvider extends ChangeNotifier {
 
   Future<void> updateTask(TaskModelUpdate taskModel) async {
     try {
-      // TODO: Get user profile and pass to user
       await _stub.updateTaskModel(taskModel);
-      await getTaskParentList(User(id: taskModel.user.id));
+      getTaskParentList(User(id: taskModel.user.id));
     } catch (e) {
       rethrow;
     }
@@ -143,7 +137,7 @@ class GRPCProvider extends ChangeNotifier {
   Future<void> deleteTask(TaskModel taskModel) async {
     try {
       var response = await _stub.deleteTask(taskModel);
-      debugPrint('Response: ${response.writeToJson()}');
+      debugPrint('Response: $response');
     } catch (e) {
       debugPrint('Caught error: $e');
     }

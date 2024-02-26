@@ -12,8 +12,8 @@ class StaggeredGridViewF extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: context.read<GRPCProvider>().getTaskParentList(User(id: "sd")),
+    return StreamBuilder(
+        stream: context.read<GRPCProvider>().getTaskParentList(User(id: "sd")),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

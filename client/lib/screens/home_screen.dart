@@ -65,8 +65,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? const NoTaskParent()
                   : const TaskProgress()),
           const Gap(20),
-          FutureBuilder(
-            future:
+          StreamBuilder(
+            stream:
                 context.read<GRPCProvider>().getTaskParentList(User(id: "sd")),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

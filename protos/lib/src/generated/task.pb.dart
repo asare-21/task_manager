@@ -42,7 +42,7 @@ class TaskModel extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'TaskModel', createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'id')
     ..aOS(2, _omitFieldNames ? '' : 'title')
-    ..aOB(3, _omitFieldNames ? '' : 'isDone')
+    ..aOB(3, _omitFieldNames ? '' : 'isDone', protoName: 'isDone')
     ..aOS(4, _omitFieldNames ? '' : 'parent')
     ..hasRequiredFields = false
   ;

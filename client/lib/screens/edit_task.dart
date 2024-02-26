@@ -24,7 +24,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
   final List<TaskModel> _tasks = [];
 
 // delete task
-  void deleteTask(TaskModel task) {
+  Future<void> deleteTask(TaskModel task) async {
+    await context.read<GRPCProvider>().deleteTask(task);
     _tasks.remove(task);
     setState(() {});
   }
@@ -67,8 +68,15 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                       isDone: false,
                       parent: widget.taskParent.id,
                     ));
-                task.clear();
                 if (mounted) Navigator.of(context).pop();
+                _tasks.add(TaskModel(
+                  id: "sample id",
+                  title: task.text,
+                  isDone: false,
+                  parent: widget.taskParent.id,
+                ));
+                task.clear();
+
                 setState(() {});
               },
               child: const Text(
@@ -326,6 +334,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
               child: TextFormField(
                 controller: description,
                 maxLength: 200,
+                enabled: false,
                 cursorColor: grey1,
                 style: TextStyle(color: grey1),
                 maxLines: 5,
@@ -454,13 +463,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                                 int index = _tasks.indexWhere((element) {
                                   return element.title == e.title;
                                 });
-                                int parentIndex = context
-                                    .read<GRPCProvider>()
-                                    .taskParents
-                                    .indexWhere((element) =>
-                                        element.id == widget.taskParent.id);
-                                // TODO: Toggle status of the task
-
+                                _tasks[index].isDone = !_tasks[index].isDone;
                                 await context.read<GRPCProvider>().updateTask(
                                     TaskModelUpdate(
                                         parent: widget.taskParent.id,
@@ -497,26 +500,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                   ),
                 )
                 .toList(),
-            const Gap(10),
-            if (_tasks.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      backgroundColor: const Color(0xff3f37c9),
-                    ),
-                    onPressed: () {
-                      saveTaskParent();
-                    },
-                    child: const Text(
-                      "Save Task",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    )),
-              )
+            const Gap(20),
           ],
         ),
       ),
