@@ -60,10 +60,15 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
           ),
           actions: [
             TextButton(
-              onPressed: () {
-                _tasks.add(TaskModel(title: task.text));
+              onPressed: () async {
+                await context.read<GRPCProvider>().addTask(TaskModel(
+                      id: "sample id",
+                      title: task.text,
+                      isDone: false,
+                      parent: widget.taskParent.id,
+                    ));
                 task.clear();
-                Navigator.of(context).pop();
+                if (mounted) Navigator.of(context).pop();
                 setState(() {});
               },
               child: const Text(

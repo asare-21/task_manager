@@ -9,14 +9,16 @@ import 'package:task_manager/screens/notifications_screen.dart';
 import 'package:task_manager/screens/tasks_screen.dart';
 
 GoRouter router = GoRouter(
-    redirect: (context, state) async{
-     bool response = await AuthenticationProvider().isAuthenticated();
-      if(response){
+    redirect: (context, state) async {
+      bool response = await AuthenticationProvider().isAuthenticated();
+      if (response && state.fullPath == "/") {
         return "/";
       }
-      return "/auth";
+      
+
+      return null;
     },
-    initialLocation: "/auth",
+    initialLocation: "/",
     routes: [
       GoRoute(
           path: "/auth",

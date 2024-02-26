@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 message TaskModel {
-  string _id = 1;
+  string id = 1;
   string title = 2;
   bool is_done = 3;
   string parent = 4;
@@ -20,7 +20,7 @@ message TaskParentModel {
   repeated TaskModel tasks = 4;
   string date = 5;
   string time = 6;
-  string _id = 7;
+  string id = 7;
   User user = 8;
 }
 

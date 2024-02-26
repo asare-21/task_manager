@@ -99,7 +99,7 @@ class TaskProgress extends StatelessWidget {
               child: Consumer<GRPCProvider>(
                 builder: (context, taskProvider, child) => Text(
                   taskProvider.taskParents
-                      .sublist(0, 4)
+                      // .sublist(0, 4)
                       .map((e) => e.date)
                       .join(" | "),
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(

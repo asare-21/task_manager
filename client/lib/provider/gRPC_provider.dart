@@ -27,11 +27,10 @@ class GRPCProvider extends ChangeNotifier {
   List<TaskParentModel> get taskParents => _taskParents;
 
   Future getUserProfile() async {
-    try{
+    try {
       final token = await storage.read(key: "access_token");
-    return auth0.api.userProfile(accessToken: token as String);
-    }
-    catch(e){
+      return auth0.api.userProfile(accessToken: token as String);
+    } catch (e) {
       debugPrint(e.toString());
     }
   }
@@ -101,6 +100,7 @@ class GRPCProvider extends ChangeNotifier {
       var response = await _stub.getTaskParentList(user);
 
       for (var element in response.taskParents) {
+        print(response.taskParents);
         if (!_taskParents.contains(element)) {
           _taskParents.add(element);
         }
@@ -123,9 +123,8 @@ class GRPCProvider extends ChangeNotifier {
 
   Future<void> addTask(TaskModel taskModel) async {
     try {
-
       var response = await _stub.addTask(taskModel);
-      debugPrint('Response: ${response.writeToJson()}');
+      debugPrint('Response: ${response.id}');
     } catch (e) {
       debugPrint('Caught error: $e');
     }
@@ -133,7 +132,7 @@ class GRPCProvider extends ChangeNotifier {
 
   Future<void> updateTask(TaskModelUpdate taskModel) async {
     try {
-      // TODO: Get user profile and pass to user 
+      // TODO: Get user profile and pass to user
       await _stub.updateTaskModel(taskModel);
       await getTaskParentList(User(id: taskModel.user.id));
     } catch (e) {

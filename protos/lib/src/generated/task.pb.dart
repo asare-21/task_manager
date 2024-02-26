@@ -40,7 +40,7 @@ class TaskModel extends $pb.GeneratedMessage {
   factory TaskModel.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'TaskModel', createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'Id')
+    ..aOS(1, _omitFieldNames ? '' : 'id')
     ..aOS(2, _omitFieldNames ? '' : 'title')
     ..aOB(3, _omitFieldNames ? '' : 'isDone')
     ..aOS(4, _omitFieldNames ? '' : 'parent')
@@ -218,7 +218,7 @@ class TaskParentModel extends $pb.GeneratedMessage {
     ..pc<TaskModel>(4, _omitFieldNames ? '' : 'tasks', $pb.PbFieldType.PM, subBuilder: TaskModel.create)
     ..aOS(5, _omitFieldNames ? '' : 'date')
     ..aOS(6, _omitFieldNames ? '' : 'time')
-    ..aOS(7, _omitFieldNames ? '' : 'Id')
+    ..aOS(7, _omitFieldNames ? '' : 'id')
     ..aOM<User>(8, _omitFieldNames ? '' : 'user', subBuilder: User.create)
     ..hasRequiredFields = false
   ;

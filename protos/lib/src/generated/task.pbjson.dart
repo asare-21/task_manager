@@ -17,7 +17,7 @@ import 'dart:typed_data' as $typed_data;
 const TaskModel$json = {
   '1': 'TaskModel',
   '2': [
-    {'1': '_id', '3': 1, '4': 1, '5': 9, '10': 'Id'},
+    {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
     {'1': 'title', '3': 2, '4': 1, '5': 9, '10': 'title'},
     {'1': 'is_done', '3': 3, '4': 1, '5': 8, '10': 'isDone'},
     {'1': 'parent', '3': 4, '4': 1, '5': 9, '10': 'parent'},
@@ -26,8 +26,8 @@ const TaskModel$json = {
 
 /// Descriptor for `TaskModel`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List taskModelDescriptor = $convert.base64Decode(
-    'CglUYXNrTW9kZWwSDwoDX2lkGAEgASgJUgJJZBIUCgV0aXRsZRgCIAEoCVIFdGl0bGUSFwoHaX'
-    'NfZG9uZRgDIAEoCFIGaXNEb25lEhYKBnBhcmVudBgEIAEoCVIGcGFyZW50');
+    'CglUYXNrTW9kZWwSDgoCaWQYASABKAlSAmlkEhQKBXRpdGxlGAIgASgJUgV0aXRsZRIXCgdpc1'
+    '9kb25lGAMgASgIUgZpc0RvbmUSFgoGcGFyZW50GAQgASgJUgZwYXJlbnQ=');
 
 @$core.Deprecated('Use userDescriptor instead')
 const User$json = {
@@ -53,7 +53,7 @@ const TaskParentModel$json = {
     {'1': 'tasks', '3': 4, '4': 3, '5': 11, '6': '.TaskModel', '10': 'tasks'},
     {'1': 'date', '3': 5, '4': 1, '5': 9, '10': 'date'},
     {'1': 'time', '3': 6, '4': 1, '5': 9, '10': 'time'},
-    {'1': '_id', '3': 7, '4': 1, '5': 9, '10': 'Id'},
+    {'1': 'id', '3': 7, '4': 1, '5': 9, '10': 'id'},
     {'1': 'user', '3': 8, '4': 1, '5': 11, '6': '.User', '10': 'user'},
   ],
 };
@@ -63,7 +63,7 @@ final $typed_data.Uint8List taskParentModelDescriptor = $convert.base64Decode(
     'Cg9UYXNrUGFyZW50TW9kZWwSFAoFdGl0bGUYASABKAlSBXRpdGxlEhoKCHN1YnRpdGxlGAIgAS'
     'gJUghzdWJ0aXRsZRIgCgtkZXNjcmlwdGlvbhgDIAEoCVILZGVzY3JpcHRpb24SIAoFdGFza3MY'
     'BCADKAsyCi5UYXNrTW9kZWxSBXRhc2tzEhIKBGRhdGUYBSABKAlSBGRhdGUSEgoEdGltZRgGIA'
-    'EoCVIEdGltZRIPCgNfaWQYByABKAlSAklkEhkKBHVzZXIYCCABKAsyBS5Vc2VyUgR1c2Vy');
+    'EoCVIEdGltZRIOCgJpZBgHIAEoCVICaWQSGQoEdXNlchgIIAEoCzIFLlVzZXJSBHVzZXI=');
 
 @$core.Deprecated('Use taskParentListResponseDescriptor instead')
 const TaskParentListResponse$json = {
