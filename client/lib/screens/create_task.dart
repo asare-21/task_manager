@@ -457,12 +457,12 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                               value: e.isDone,
                               groupValue: e.isDone,
                               onChanged: (value) {
-                                int index = _tasks.indexWhere((element) {
-                                  return element.title == e.title;
-                                });
-                                // TODO: Toggle status of the task
-                                // _tasks[index].toggleDone();
-                                setState(() {});
+                                // int index = _tasks.indexWhere((element) {
+                                //   return element.title == e.title;
+                                // });
+                                // // TODO: Toggle status of the task
+                                // // _tasks[index].toggleDone();
+                                // setState(() {});
                               },
                               toggleable: true,
                             ),
