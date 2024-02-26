@@ -9,6 +9,7 @@ message TaskModel {
 
 message User{
   string id = 1;
+  string access_token = 2;
 }
 
 
@@ -20,10 +21,12 @@ message TaskParentModel {
   string date = 5;
   string time = 6;
   string _id = 7;
+  User user = 8;
 }
 
 message TaskParentListResponse {
   repeated TaskParentModel task_parents = 1;
+  User user = 2;
 }
 
 message TaskModelUpdate{

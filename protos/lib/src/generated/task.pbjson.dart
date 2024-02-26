@@ -34,12 +34,14 @@ const User$json = {
   '1': 'User',
   '2': [
     {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    {'1': 'access_token', '3': 2, '4': 1, '5': 9, '10': 'accessToken'},
   ],
 };
 
 /// Descriptor for `User`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List userDescriptor = $convert.base64Decode(
-    'CgRVc2VyEg4KAmlkGAEgASgJUgJpZA==');
+    'CgRVc2VyEg4KAmlkGAEgASgJUgJpZBIhCgxhY2Nlc3NfdG9rZW4YAiABKAlSC2FjY2Vzc1Rva2'
+    'Vu');
 
 @$core.Deprecated('Use taskParentModelDescriptor instead')
 const TaskParentModel$json = {
@@ -52,6 +54,7 @@ const TaskParentModel$json = {
     {'1': 'date', '3': 5, '4': 1, '5': 9, '10': 'date'},
     {'1': 'time', '3': 6, '4': 1, '5': 9, '10': 'time'},
     {'1': '_id', '3': 7, '4': 1, '5': 9, '10': 'Id'},
+    {'1': 'user', '3': 8, '4': 1, '5': 11, '6': '.User', '10': 'user'},
   ],
 };
 
@@ -60,20 +63,21 @@ final $typed_data.Uint8List taskParentModelDescriptor = $convert.base64Decode(
     'Cg9UYXNrUGFyZW50TW9kZWwSFAoFdGl0bGUYASABKAlSBXRpdGxlEhoKCHN1YnRpdGxlGAIgAS'
     'gJUghzdWJ0aXRsZRIgCgtkZXNjcmlwdGlvbhgDIAEoCVILZGVzY3JpcHRpb24SIAoFdGFza3MY'
     'BCADKAsyCi5UYXNrTW9kZWxSBXRhc2tzEhIKBGRhdGUYBSABKAlSBGRhdGUSEgoEdGltZRgGIA'
-    'EoCVIEdGltZRIPCgNfaWQYByABKAlSAklk');
+    'EoCVIEdGltZRIPCgNfaWQYByABKAlSAklkEhkKBHVzZXIYCCABKAsyBS5Vc2VyUgR1c2Vy');
 
 @$core.Deprecated('Use taskParentListResponseDescriptor instead')
 const TaskParentListResponse$json = {
   '1': 'TaskParentListResponse',
   '2': [
     {'1': 'task_parents', '3': 1, '4': 3, '5': 11, '6': '.TaskParentModel', '10': 'taskParents'},
+    {'1': 'user', '3': 2, '4': 1, '5': 11, '6': '.User', '10': 'user'},
   ],
 };
 
 /// Descriptor for `TaskParentListResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List taskParentListResponseDescriptor = $convert.base64Decode(
     'ChZUYXNrUGFyZW50TGlzdFJlc3BvbnNlEjMKDHRhc2tfcGFyZW50cxgBIAMoCzIQLlRhc2tQYX'
-    'JlbnRNb2RlbFILdGFza1BhcmVudHM=');
+    'JlbnRNb2RlbFILdGFza1BhcmVudHMSGQoEdXNlchgCIAEoCzIFLlVzZXJSBHVzZXI=');
 
 @$core.Deprecated('Use taskModelUpdateDescriptor instead')
 const TaskModelUpdate$json = {

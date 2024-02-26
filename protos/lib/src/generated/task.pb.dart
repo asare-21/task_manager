@@ -108,10 +108,14 @@ class TaskModel extends $pb.GeneratedMessage {
 class User extends $pb.GeneratedMessage {
   factory User({
     $core.String? id,
+    $core.String? accessToken,
   }) {
     final $result = create();
     if (id != null) {
       $result.id = id;
+    }
+    if (accessToken != null) {
+      $result.accessToken = accessToken;
     }
     return $result;
   }
@@ -121,6 +125,7 @@ class User extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'User', createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'id')
+    ..aOS(2, _omitFieldNames ? '' : 'accessToken')
     ..hasRequiredFields = false
   ;
 
@@ -153,6 +158,15 @@ class User extends $pb.GeneratedMessage {
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
   void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get accessToken => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set accessToken($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasAccessToken() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearAccessToken() => clearField(2);
 }
 
 class TaskParentModel extends $pb.GeneratedMessage {
@@ -164,6 +178,7 @@ class TaskParentModel extends $pb.GeneratedMessage {
     $core.String? date,
     $core.String? time,
     $core.String? id,
+    User? user,
   }) {
     final $result = create();
     if (title != null) {
@@ -187,6 +202,9 @@ class TaskParentModel extends $pb.GeneratedMessage {
     if (id != null) {
       $result.id = id;
     }
+    if (user != null) {
+      $result.user = user;
+    }
     return $result;
   }
   TaskParentModel._() : super();
@@ -201,6 +219,7 @@ class TaskParentModel extends $pb.GeneratedMessage {
     ..aOS(5, _omitFieldNames ? '' : 'date')
     ..aOS(6, _omitFieldNames ? '' : 'time')
     ..aOS(7, _omitFieldNames ? '' : 'Id')
+    ..aOM<User>(8, _omitFieldNames ? '' : 'user', subBuilder: User.create)
     ..hasRequiredFields = false
   ;
 
@@ -281,15 +300,30 @@ class TaskParentModel extends $pb.GeneratedMessage {
   $core.bool hasId() => $_has(6);
   @$pb.TagNumber(7)
   void clearId() => clearField(7);
+
+  @$pb.TagNumber(8)
+  User get user => $_getN(7);
+  @$pb.TagNumber(8)
+  set user(User v) { setField(8, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasUser() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearUser() => clearField(8);
+  @$pb.TagNumber(8)
+  User ensureUser() => $_ensure(7);
 }
 
 class TaskParentListResponse extends $pb.GeneratedMessage {
   factory TaskParentListResponse({
     $core.Iterable<TaskParentModel>? taskParents,
+    User? user,
   }) {
     final $result = create();
     if (taskParents != null) {
       $result.taskParents.addAll(taskParents);
+    }
+    if (user != null) {
+      $result.user = user;
     }
     return $result;
   }
@@ -299,6 +333,7 @@ class TaskParentListResponse extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'TaskParentListResponse', createEmptyInstance: create)
     ..pc<TaskParentModel>(1, _omitFieldNames ? '' : 'taskParents', $pb.PbFieldType.PM, subBuilder: TaskParentModel.create)
+    ..aOM<User>(2, _omitFieldNames ? '' : 'user', subBuilder: User.create)
     ..hasRequiredFields = false
   ;
 
@@ -325,6 +360,17 @@ class TaskParentListResponse extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(1)
   $core.List<TaskParentModel> get taskParents => $_getList(0);
+
+  @$pb.TagNumber(2)
+  User get user => $_getN(1);
+  @$pb.TagNumber(2)
+  set user(User v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasUser() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearUser() => clearField(2);
+  @$pb.TagNumber(2)
+  User ensureUser() => $_ensure(1);
 }
 
 class TaskModelUpdate extends $pb.GeneratedMessage {
