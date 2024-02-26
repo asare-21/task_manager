@@ -6,7 +6,6 @@ import 'package:protos/protos.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manager/config/globals.dart';
 import 'package:task_manager/provider/gRPC_provider.dart';
-import 'package:task_manager/provider/task_provider.dart';
 
 class StaggeredGridViewF extends StatelessWidget {
   const StaggeredGridViewF({super.key});

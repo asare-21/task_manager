@@ -34,11 +34,14 @@ dependencies:
   protos:
     path: ../protos
   grpc: ^3.2.4
+  auth0_flutter: ^1.5.0
+  flutter_secure_storage: ^9.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  change_app_package_name: ^1.1.0
 
 flutter:
   uses-material-design: true

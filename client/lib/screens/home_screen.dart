@@ -5,7 +5,6 @@ import 'package:protos/protos.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manager/config/globals.dart';
 import 'package:task_manager/provider/gRPC_provider.dart';
-import 'package:task_manager/provider/task_provider.dart';
 import 'package:task_manager/widgets/no_task_parent.dart';
 import 'package:task_manager/widgets/search_widget.dart';
 import 'package:task_manager/widgets/staggered_grid.dart';

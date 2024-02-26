@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manager/config/globals.dart';
 import 'package:task_manager/provider/gRPC_provider.dart';
-import 'package:task_manager/provider/task_provider.dart';
 
 class TaskProgress extends StatelessWidget {
   const TaskProgress({super.key});

@@ -1,4 +1,6 @@
+import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:grpc/grpc.dart';
 import 'package:protos/protos.dart';
 
@@ -10,8 +12,29 @@ var _stub = TaskServiceClient(_channel,
     options: CallOptions(timeout: const Duration(seconds: 30)));
 
 class GRPCProvider extends ChangeNotifier {
+  late Auth0 auth0;
+  final storage = const FlutterSecureStorage(
+      aOptions: AndroidOptions(
+    encryptedSharedPreferences: true,
+  ));
+
+  init() {
+    auth0 = Auth0('dev-ew2mgn7vvmi1sfiu.us.auth0.com',
+        'VmIxiUJIxWuGQRsPt5AY4HHZJDGxIkYu');
+  }
+
   final List<TaskParentModel> _taskParents = [];
   List<TaskParentModel> get taskParents => _taskParents;
+
+  Future getUserProfile() async {
+    try{
+      final token = await storage.read(key: "access_token");
+    return auth0.api.userProfile(accessToken: token as String);
+    }
+    catch(e){
+      debugPrint(e.toString());
+    }
+  }
 
 // compute entire task parent model progress
   double getEntireProgress() {
@@ -64,6 +87,7 @@ class GRPCProvider extends ChangeNotifier {
 
   Future<void> createTaskParent(TaskParentModel taskParentModel) async {
     try {
+      // TODO: getUserProfile before adding taskParent
       var response = await _stub.addTaskParent(taskParentModel);
       debugPrint('Response: $response');
     } catch (e) {
@@ -73,6 +97,7 @@ class GRPCProvider extends ChangeNotifier {
 
   Future<void> getTaskParentList(User user) async {
     try {
+      // TODO: getUserProfile before getting taskParentList
       var response = await _stub.getTaskParentList(user);
 
       for (var element in response.taskParents) {
@@ -98,6 +123,7 @@ class GRPCProvider extends ChangeNotifier {
 
   Future<void> addTask(TaskModel taskModel) async {
     try {
+
       var response = await _stub.addTask(taskModel);
       debugPrint('Response: ${response.writeToJson()}');
     } catch (e) {
@@ -107,7 +133,7 @@ class GRPCProvider extends ChangeNotifier {
 
   Future<void> updateTask(TaskModelUpdate taskModel) async {
     try {
-      // _stub.taskM
+      // TODO: Get user profile and pass to user 
       await _stub.updateTaskModel(taskModel);
       await getTaskParentList(User(id: taskModel.user.id));
     } catch (e) {

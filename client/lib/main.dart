@@ -4,18 +4,23 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manager/config/globals.dart';
 import 'package:task_manager/config/go_router.dart';
+import 'package:task_manager/provider/authentication_provider.dart';
 import 'package:task_manager/provider/gRPC_provider.dart';
 import 'package:task_manager/provider/task_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+// SCHEME://dev-ew2mgn7vvmi1sfiu.us.auth0.com/android/com.io.taskManager/callback
+// com.io.taskManager://dev-ew2mgn7vvmi1sfiu.us.auth0.com/ios/com.io.taskManager/callback
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (context) => TaskProvider(),
     ),
     ChangeNotifierProvider(
       create: (context) => GRPCProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => AuthenticationProvider(),
     )
   ], child: const MyApp()));
   await SystemChrome.setPreferredOrientations(
